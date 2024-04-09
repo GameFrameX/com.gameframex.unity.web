@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace GameFrameX.Web.Tests
 {
-    public class UnitTestsWeb
+    internal class UnitTests
     {
         private DateTime dateTime, dateTime1;
 
@@ -13,18 +13,6 @@ namespace GameFrameX.Web.Tests
             dateTime = DateTime.Now;
             dateTime1 = DateTime.Now.AddHours(1);
         }
-
-        // Here is an example of a unit test for the IsUnixSameDay method
-        [Test]
-        public void TestIsUnixSameDay()
-        {
-            // Arrange
-            long timestamp1 = 1617842400; // April 7, 2021 12:00:00 AM UTC
-            long timestamp2 = 1617896400; // April 7, 2021 12:00:00 PM UTC
-
-            // Act
-        }
-
 
         [Test]
         public void Test1()
