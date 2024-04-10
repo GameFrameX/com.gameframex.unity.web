@@ -1,10 +1,12 @@
-using System;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Web.Runtime
 {
-    public class GameFrameXCroppingHelper : MonoBehaviour
+    [Preserve]
+    public class GameFrameXWebCroppingHelper : MonoBehaviour
     {
+        [Preserve]
         private void Start()
         {
             _ = typeof(WebComponent);
