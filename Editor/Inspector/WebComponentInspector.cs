@@ -9,7 +9,6 @@ namespace GameFrameX.Web.Editor
     {
         protected override void RefreshTypeNames()
         {
-            base.RefreshTypeNames();
             RefreshComponentTypeNames(typeof(IWebManager));
         }
     }

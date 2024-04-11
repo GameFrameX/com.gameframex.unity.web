@@ -27,7 +27,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         protected override void Awake()
         {
-            ComponentType = Type.GetType(m_ComponentType);
+            ImplementationComponentType = Type.GetType(componentType);
             InterfaceComponentType = typeof(IWebManager);
             base.Awake();
             m_WebManager = GameFrameworkEntry.GetModule<IWebManager>();
