@@ -2,7 +2,8 @@
     "name": "GameFrameX.Web.Editor",
     "references": [
         "GameFrameX.Web.Runtime",
-        "GameFrameX.Editor"
+        "GameFrameX.Editor",
+        "GameFrameX.Runtime"
     ],
     "includePlatforms": [
         "Editor"

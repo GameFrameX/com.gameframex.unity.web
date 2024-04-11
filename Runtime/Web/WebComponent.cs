@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameFrameX.Runtime;
@@ -26,8 +27,9 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         protected override void Awake()
         {
+            ComponentType = Type.GetType(m_ComponentType);
+            InterfaceComponentType = typeof(IWebManager);
             base.Awake();
-            new WebManager();
             m_WebManager = GameFrameworkEntry.GetModule<IWebManager>();
             if (m_WebManager == null)
             {
