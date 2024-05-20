@@ -138,6 +138,48 @@ namespace GameFrameX.Web.Runtime
 
         private async void MakeStringRequest(WebData webData)
         {
+#if UNITY_WEBGL
+            UnityWebRequest unityWebRequest;
+            if (webData.IsGet)
+            {
+                unityWebRequest = UnityWebRequest.Get(webData.URL);
+            }
+            else
+            {
+                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+            }
+
+            unityWebRequest.timeout = (int)RequestTimeout.TotalMilliseconds;
+            if (webData.Form != null && webData.Form.Count > 0)
+            {
+                unityWebRequest.SetRequestHeader("Content-Type", "application/json");
+                string body = Utility.Json.ToJson(webData.Form);
+                byte[] postData = Encoding.UTF8.GetBytes(body);
+                unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
+            }
+
+            if (webData.Header != null && webData.Header.Count > 0)
+            {
+                foreach (var kv in webData.Header)
+                {
+                    unityWebRequest.SetRequestHeader(kv.Key, kv.Value);
+                }
+            }
+
+            var asyncOperation = unityWebRequest.SendWebRequest();
+            asyncOperation.completed += (asyncOperation2) =>
+            {
+                if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
+                {
+                    webData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
+                    m_SendingList.Remove(webData);
+                    return;
+                }
+
+                webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, unityWebRequest.downloadHandler.text));
+                m_SendingList.Remove(webData);
+            };
+#else
             try
             {
                 HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
@@ -198,10 +240,53 @@ namespace GameFrameX.Web.Runtime
                 webData.UniTaskCompletionStringSource.SetException(e);
                 m_SendingList.Remove(webData);
             }
+#endif
         }
 
         private async void MakeBytesRequest(WebData webData)
         {
+#if UNITY_WEBGL
+            UnityWebRequest unityWebRequest;
+            if (webData.IsGet)
+            {
+                unityWebRequest = UnityWebRequest.Get(webData.URL);
+            }
+            else
+            {
+                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+            }
+
+            unityWebRequest.timeout = (int)RequestTimeout.TotalMilliseconds;
+            if (webData.Form != null && webData.Form.Count > 0)
+            {
+                unityWebRequest.SetRequestHeader("Content-Type", "application/json");
+                string body = Utility.Json.ToJson(webData.Form);
+                byte[] postData = Encoding.UTF8.GetBytes(body);
+                unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
+            }
+
+            if (webData.Header != null && webData.Header.Count > 0)
+            {
+                foreach (var kv in webData.Header)
+                {
+                    unityWebRequest.SetRequestHeader(kv.Key, kv.Value);
+                }
+            }
+
+            var asyncOperation = unityWebRequest.SendWebRequest();
+            asyncOperation.completed += (asyncOperation2) =>
+            {
+                if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
+                {
+                    webData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
+                    m_SendingList.Remove(webData);
+                    return;
+                }
+
+                webData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
+                m_SendingList.Remove(webData);
+            };
+#else
             try
             {
                 HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
@@ -259,6 +344,7 @@ namespace GameFrameX.Web.Runtime
                 webData.UniTaskCompletionBytesSource.SetException(e);
                 m_SendingList.Remove(webData);
             }
+#endif
         }
 
         /// <summary>
