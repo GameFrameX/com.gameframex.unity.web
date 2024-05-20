@@ -149,7 +149,7 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
             }
 
-            unityWebRequest.timeout = (int)RequestTimeout.TotalMilliseconds;
+            unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             if (webData.Form != null && webData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
@@ -256,7 +256,7 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
             }
 
-            unityWebRequest.timeout = (int)RequestTimeout.TotalMilliseconds;
+            unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             if (webData.Form != null && webData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
