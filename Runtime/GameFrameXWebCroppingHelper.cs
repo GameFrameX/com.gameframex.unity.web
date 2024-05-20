@@ -12,6 +12,8 @@ namespace GameFrameX.Web.Runtime
             _ = typeof(WebComponent);
             _ = typeof(IWebManager);
             _ = typeof(WebManager);
+            _ = typeof(WebStringResult);
+            _ = typeof(WebBufferResult);
         }
     }
 }

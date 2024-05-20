@@ -7,45 +7,50 @@ namespace GameFrameX.Web.Runtime
     {
         private class WebData
         {
+            public object UserData { get; }
             public bool IsGet { get; }
             public string URL { get; set; }
             public Dictionary<string, string> Header { get; }
             public Dictionary<string, string> Form { get; }
-            public readonly TaskCompletionSource<string> UniTaskCompletionStringSource;
-            public readonly TaskCompletionSource<byte[]> UniTaskCompletionBytesSource;
+            public readonly TaskCompletionSource<WebStringResult> UniTaskCompletionStringSource;
+            public readonly TaskCompletionSource<WebBufferResult> UniTaskCompletionBytesSource;
 
-            public WebData(string url, Dictionary<string, string> header, bool isGet, TaskCompletionSource<byte[]> source)
+            public WebData(string url, Dictionary<string, string> header, bool isGet, TaskCompletionSource<WebBufferResult> source, object userData = null)
             {
                 IsGet = isGet;
                 URL = url;
                 Header = header;
                 UniTaskCompletionBytesSource = source;
+                UserData = userData;
             }
 
-            public WebData(string url, Dictionary<string, string> header, bool isGet, TaskCompletionSource<string> source)
+            public WebData(string url, Dictionary<string, string> header, bool isGet, TaskCompletionSource<WebStringResult> source, object userData = null)
             {
                 IsGet = isGet;
                 URL = url;
                 Header = header;
                 UniTaskCompletionStringSource = source;
+                UserData = userData;
             }
 
-            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<string> source)
+            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<WebStringResult> source, object userData = null)
             {
                 IsGet = false;
                 URL = url;
                 Header = header;
                 Form = form;
                 UniTaskCompletionStringSource = source;
+                UserData = userData;
             }
 
-            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<byte[]> source)
+            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<WebBufferResult> source, object userData = null)
             {
                 IsGet = false;
                 URL = url;
                 Header = header;
                 Form = form;
                 UniTaskCompletionBytesSource = source;
+                UserData = userData;
             }
         }
     }
