@@ -1,5 +1,5 @@
 {
-  "name": "com.alianblank.gameframex.unity.web",
+  "name": "com.gameframex.unity.web",
   "displayName": "Game Frame X Web",
   "category": "Game Framework X",
   "description": "Game Frame X Web Component",
@@ -9,8 +9,8 @@
     "Game Framework X"
   ],
   "repository": {
-    "name": "com.alianblank.gameframex.unity.web",
-    "url": "https://github.com/AlianBlank/com.alianblank.gameframex.unity.web.git",
+    "name": "com.gameframex.unity.web",
+    "url": "https://github.com/AlianBlank/com.gameframex.unity.web.git",
     "type": "git"
   },
   "author": {
