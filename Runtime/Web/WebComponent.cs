@@ -113,7 +113,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="from">请求参数</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from = null)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from = null)
         {
             return m_WebManager.PostToString(url, from);
         }
@@ -125,7 +125,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString)
         {
             return m_WebManager.PostToString(url, from, queryString);
         }
@@ -138,7 +138,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URl请求参数</param>
         /// <param name="header">请求头</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
         {
             return m_WebManager.PostToString(url, from, queryString, header);
         }
@@ -150,7 +150,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="from">请求参数</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from)
         {
             return m_WebManager.PostToBytes(url, from);
         }
@@ -162,7 +162,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString)
         {
             return m_WebManager.PostToBytes(url, from, queryString);
         }
@@ -175,7 +175,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URl请求参数</param>
         /// <param name="header">请求头</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
         {
             return m_WebManager.PostToBytes(url, from, queryString, header);
         }

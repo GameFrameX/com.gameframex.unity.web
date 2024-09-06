@@ -11,7 +11,7 @@ namespace GameFrameX.Web.Runtime
             public bool IsGet { get; }
             public string URL { get; set; }
             public Dictionary<string, string> Header { get; }
-            public Dictionary<string, string> Form { get; }
+            public Dictionary<string, object> Form { get; }
             public readonly TaskCompletionSource<WebStringResult> UniTaskCompletionStringSource;
             public readonly TaskCompletionSource<WebBufferResult> UniTaskCompletionBytesSource;
 
@@ -33,7 +33,7 @@ namespace GameFrameX.Web.Runtime
                 UserData = userData;
             }
 
-            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<WebStringResult> source, object userData = null)
+            public WebData(string url, Dictionary<string, string> header, Dictionary<string, object> form, TaskCompletionSource<WebStringResult> source, object userData = null)
             {
                 IsGet = false;
                 URL = url;
@@ -43,7 +43,7 @@ namespace GameFrameX.Web.Runtime
                 UserData = userData;
             }
 
-            public WebData(string url, Dictionary<string, string> header, Dictionary<string, string> form, TaskCompletionSource<WebBufferResult> source, object userData = null)
+            public WebData(string url, Dictionary<string, string> header, Dictionary<string, object> form, TaskCompletionSource<WebBufferResult> source, object userData = null)
             {
                 IsGet = false;
                 URL = url;

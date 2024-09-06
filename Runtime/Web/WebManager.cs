@@ -147,7 +147,7 @@ namespace GameFrameX.Web.Runtime
             }
             else
             {
-                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.PostWwwForm(webData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
@@ -254,7 +254,7 @@ namespace GameFrameX.Web.Runtime
             }
             else
             {
-                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.PostWwwForm(webData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
@@ -374,7 +374,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">请求参数</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from, object userData = null)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, object userData = null)
         {
             return PostToString(url, from, null, null, userData);
         }
@@ -386,7 +386,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">请求参数</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from, object userData = null)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, object userData = null)
         {
             return PostToBytes(url, from, null, null, userData);
         }
@@ -399,7 +399,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URl请求参数</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, object userData = null)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
             return PostToString(url, from, queryString, null, userData);
         }
@@ -412,7 +412,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URl请求参数</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, object userData = null)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
             return PostToBytes(url, from, queryString, null, userData);
         }
@@ -427,7 +427,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">请求头</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebStringResult>();
             url = UrlHandler(url, queryString);
@@ -446,7 +446,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">请求头</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
             url = UrlHandler(url, queryString);
