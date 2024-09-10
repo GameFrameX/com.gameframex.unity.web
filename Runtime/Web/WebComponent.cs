@@ -18,6 +18,7 @@ namespace GameFrameX.Web.Runtime
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework/Web")]
+    [UnityEngine.Scripting.Preserve]
     public sealed class WebComponent : GameFrameworkComponent
     {
         private IWebManager m_WebManager;

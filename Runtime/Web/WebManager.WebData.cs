@@ -5,7 +5,7 @@ namespace GameFrameX.Web.Runtime
 {
     public partial class WebManager
     {
-        private class WebData
+        private sealed class WebData
         {
             public object UserData { get; }
             public bool IsGet { get; }

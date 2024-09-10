@@ -1,6 +1,6 @@
 ﻿namespace GameFrameX.Web.Runtime
 {
-    public class WebBufferResult
+    public sealed class WebBufferResult
     {
         public WebBufferResult(object userData, byte[] result)
         {

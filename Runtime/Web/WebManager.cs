@@ -4,10 +4,13 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+#if UNITY_WEBGL
 using UnityEngine.Networking;
+#endif
 
 namespace GameFrameX.Web.Runtime
 {
+    [UnityEngine.Scripting.Preserve]
     public partial class WebManager : GameFrameworkModule, IWebManager
     {
         private readonly StringBuilder m_StringBuilder = new StringBuilder(256);
@@ -16,6 +19,7 @@ namespace GameFrameX.Web.Runtime
         private readonly MemoryStream m_MemoryStream;
         private float m_Timeout = 5f;
 
+        [UnityEngine.Scripting.Preserve]
         public WebManager()
         {
             MaxConnectionPerServer = 8;
@@ -157,7 +161,7 @@ namespace GameFrameX.Web.Runtime
             }
             else
             {
-                unityWebRequest = UnityWebRequest.PostWwwForm(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
@@ -232,7 +236,7 @@ namespace GameFrameX.Web.Runtime
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    webData.UniTaskCompletionStringSource.SetException(new TimeoutException());
+                    webData.UniTaskCompletionStringSource.SetException(new TimeoutException(e.Message));
                     m_SendingList.Remove(webData);
                     return;
                 }
@@ -247,7 +251,6 @@ namespace GameFrameX.Web.Runtime
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unexpected exception caught: " + e.Message);
                 webData.UniTaskCompletionStringSource.SetException(e);
                 m_SendingList.Remove(webData);
             }
@@ -264,7 +267,7 @@ namespace GameFrameX.Web.Runtime
             }
             else
             {
-                unityWebRequest = UnityWebRequest.PostWwwForm(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
@@ -337,7 +340,7 @@ namespace GameFrameX.Web.Runtime
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    webData.UniTaskCompletionBytesSource.SetException(new TimeoutException());
+                    webData.UniTaskCompletionBytesSource.SetException(new TimeoutException(e.Message));
                     m_SendingList.Remove(webData);
                     return;
                 }

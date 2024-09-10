@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace GameFrameX.Web.Runtime
 {
+    [UnityEngine.Scripting.Preserve]
     public interface IWebManager
     {
         /// <summary>

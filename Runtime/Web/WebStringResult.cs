@@ -1,7 +1,9 @@
 ﻿namespace GameFrameX.Web.Runtime
 {
-    public class WebStringResult
+    [UnityEngine.Scripting.Preserve]
+    public sealed class WebStringResult
     {
+        [UnityEngine.Scripting.Preserve]
         public WebStringResult(object userData, string result)
         {
             UserData = userData;
@@ -17,5 +19,10 @@
         /// 用户自定义数据
         /// </summary>
         public object UserData { get; }
+
+        public override string ToString()
+        {
+            return $"[Result]:{Result}";
+        }
     }
 }
