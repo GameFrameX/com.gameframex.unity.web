@@ -199,7 +199,7 @@ namespace GameFrameX.Web.Runtime
             {
                 HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
                 request.Method = webData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
-                request.Timeout = (int)RequestTimeout.TotalSeconds; // 设置请求超时时间
+                request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
                 if (webData.Form != null && webData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
@@ -304,7 +304,7 @@ namespace GameFrameX.Web.Runtime
             {
                 HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
                 request.Method = webData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
-                request.Timeout = (int)RequestTimeout.TotalSeconds; // 设置请求超时时间
+                request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
                 if (webData.Header != null && webData.Header.Count > 0)
                 {
                     foreach (var kv in webData.Header)
