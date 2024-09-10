@@ -24,6 +24,7 @@ namespace GameFrameX.Web.Runtime
         {
             MaxConnectionPerServer = 8;
             m_MemoryStream = new MemoryStream();
+            Timeout = 5f;
         }
 
         public float Timeout
@@ -184,15 +185,14 @@ namespace GameFrameX.Web.Runtime
             var asyncOperation = unityWebRequest.SendWebRequest();
             asyncOperation.completed += (asyncOperation2) =>
             {
+                m_SendingList.Remove(webData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
                     webData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
-                    m_SendingList.Remove(webData);
                     return;
                 }
 
                 webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, unityWebRequest.downloadHandler.text));
-                m_SendingList.Remove(webData);
             };
 #else
             try
@@ -226,33 +226,33 @@ namespace GameFrameX.Web.Runtime
                     {
                         string content = await reader.ReadToEndAsync();
 
-                        webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, content));
                         m_SendingList.Remove(webData);
+                        webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, content));
                     }
                 }
             }
             catch (WebException e)
             {
+                m_SendingList.Remove(webData);
+
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
                     webData.UniTaskCompletionStringSource.SetException(new TimeoutException(e.Message));
-                    m_SendingList.Remove(webData);
                     return;
                 }
 
                 webData.UniTaskCompletionStringSource.SetException(e);
-                m_SendingList.Remove(webData);
             }
             catch (IOException e)
             {
-                webData.UniTaskCompletionStringSource.SetException(e);
                 m_SendingList.Remove(webData);
+                webData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (Exception e)
             {
-                webData.UniTaskCompletionStringSource.SetException(e);
                 m_SendingList.Remove(webData);
+                webData.UniTaskCompletionStringSource.SetException(e);
             }
 #endif
         }
@@ -290,15 +290,14 @@ namespace GameFrameX.Web.Runtime
             var asyncOperation = unityWebRequest.SendWebRequest();
             asyncOperation.completed += (asyncOperation2) =>
             {
+                m_SendingList.Remove(webData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
                     webData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
-                    m_SendingList.Remove(webData);
                     return;
                 }
 
                 webData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
-                m_SendingList.Remove(webData);
             };
 #else
             try
@@ -337,26 +336,25 @@ namespace GameFrameX.Web.Runtime
             }
             catch (WebException e)
             {
+                m_SendingList.Remove(webData);
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
                     webData.UniTaskCompletionBytesSource.SetException(new TimeoutException(e.Message));
-                    m_SendingList.Remove(webData);
                     return;
                 }
 
                 webData.UniTaskCompletionBytesSource.SetException(e);
-                m_SendingList.Remove(webData);
             }
             catch (IOException e)
             {
-                webData.UniTaskCompletionBytesSource.SetException(e);
                 m_SendingList.Remove(webData);
+                webData.UniTaskCompletionBytesSource.SetException(e);
             }
             catch (Exception e)
             {
-                webData.UniTaskCompletionBytesSource.SetException(e);
                 m_SendingList.Remove(webData);
+                webData.UniTaskCompletionBytesSource.SetException(e);
             }
 #endif
         }

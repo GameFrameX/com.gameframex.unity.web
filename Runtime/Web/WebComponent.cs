@@ -49,6 +49,8 @@ namespace GameFrameX.Web.Runtime
                 Log.Fatal("Web manager is invalid.");
                 return;
             }
+
+            m_WebManager.Timeout = m_Timeout;
         }
 
         /// <summary>
