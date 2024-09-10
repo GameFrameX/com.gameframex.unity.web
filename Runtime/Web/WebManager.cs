@@ -14,12 +14,22 @@ namespace GameFrameX.Web.Runtime
         private readonly Queue<WebData> m_WaitingQueue = new Queue<WebData>(256);
         private readonly List<WebData> m_SendingList = new List<WebData>(16);
         private readonly MemoryStream m_MemoryStream;
+        private float m_Timeout = 5f;
 
         public WebManager()
         {
             MaxConnectionPerServer = 8;
             m_MemoryStream = new MemoryStream();
-            RequestTimeout = TimeSpan.FromSeconds(5);
+        }
+
+        public float Timeout
+        {
+            get { return m_Timeout; }
+            set
+            {
+                m_Timeout = value;
+                RequestTimeout = TimeSpan.FromSeconds(value);
+            }
         }
 
         public int MaxConnectionPerServer { get; set; }
@@ -454,6 +464,7 @@ namespace GameFrameX.Web.Runtime
             m_WaitingQueue.Enqueue(webData);
             return uniTaskCompletionSource.Task;
         }
+
 
         /// <summary>
         /// URL 标准化

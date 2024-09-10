@@ -22,6 +22,18 @@ namespace GameFrameX.Web.Runtime
     {
         private IWebManager m_WebManager;
 
+        [SerializeField] [Tooltip("超时时间.单位：秒")]
+        private float m_Timeout = 5f;
+
+        /// <summary>
+        /// 获取或设置下载超时时长，以秒为单位。
+        /// </summary>
+        public float Timeout
+        {
+            get { return m_WebManager.Timeout; }
+            set { m_WebManager.Timeout = m_Timeout = value; }
+        }
+
         /// <summary>
         /// 游戏框架组件初始化。
         /// </summary>

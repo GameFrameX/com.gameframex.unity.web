@@ -122,5 +122,10 @@ namespace GameFrameX.Web.Runtime
         /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
         Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        float Timeout { get; set; }
     }
 }
