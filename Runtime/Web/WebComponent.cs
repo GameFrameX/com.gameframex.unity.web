@@ -69,10 +69,11 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="queryString">请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString)
+        public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, object userData = null)
         {
-            return m_WebManager.GetToString(url, queryString);
+            return m_WebManager.GetToString(url, queryString, userData);
         }
 
         /// <summary>
@@ -81,10 +82,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="queryString">请求参数</param>
         /// <param name="header">请求头</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
-            return m_WebManager.GetToString(url, queryString, header);
+            return m_WebManager.GetToString(url, queryString, header, userData);
         }
 
 
@@ -92,10 +94,11 @@ namespace GameFrameX.Web.Runtime
         /// 发送Get 请求
         /// </summary>
         /// <param name="url">请求地址</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> GetToBytes(string url)
+        public Task<WebBufferResult> GetToBytes(string url, object userData = null)
         {
-            return m_WebManager.GetToBytes(url);
+            return m_WebManager.GetToBytes(url, userData);
         }
 
         /// <summary>
@@ -103,10 +106,11 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="queryString">请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString)
+        public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, object userData = null)
         {
-            return m_WebManager.GetToBytes(url, queryString);
+            return m_WebManager.GetToBytes(url, queryString, userData);
         }
 
         /// <summary>
@@ -115,10 +119,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="queryString">请求参数</param>
         /// <param name="header">请求头</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
-            return m_WebManager.GetToBytes(url, queryString, header);
+            return m_WebManager.GetToBytes(url, queryString, header, userData);
         }
 
 
@@ -127,10 +132,11 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="from">请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from = null)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from = null, object userData = null)
         {
-            return m_WebManager.PostToString(url, from);
+            return m_WebManager.PostToString(url, from, userData);
         }
 
         /// <summary>
@@ -139,10 +145,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
-            return m_WebManager.PostToString(url, from, queryString);
+            return m_WebManager.PostToString(url, from, queryString, userData);
         }
 
         /// <summary>
@@ -152,10 +159,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
         /// <param name="header">请求头</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
-            return m_WebManager.PostToString(url, from, queryString, header);
+            return m_WebManager.PostToString(url, from, queryString, header, userData);
         }
 
 
@@ -164,10 +172,11 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="url">请求地址</param>
         /// <param name="from">请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, object userData = null)
         {
-            return m_WebManager.PostToBytes(url, from);
+            return m_WebManager.PostToBytes(url, from, userData);
         }
 
         /// <summary>
@@ -176,10 +185,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
-            return m_WebManager.PostToBytes(url, from, queryString);
+            return m_WebManager.PostToBytes(url, from, queryString, userData);
         }
 
         /// <summary>
@@ -189,10 +199,11 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单请求参数</param>
         /// <param name="queryString">URl请求参数</param>
         /// <param name="header">请求头</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns></returns>
-        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header)
+        public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
-            return m_WebManager.PostToBytes(url, from, queryString, header);
+            return m_WebManager.PostToBytes(url, from, queryString, header, userData);
         }
     }
 }
