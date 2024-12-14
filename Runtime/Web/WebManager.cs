@@ -335,6 +335,8 @@ namespace GameFrameX.Web.Runtime
                 {
                     using (Stream responseStream = response.GetResponseStream())
                     {
+                        m_MemoryStream.SetLength(responseStream.Length);
+                        m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
                         webData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webData.UserData, m_MemoryStream.ToArray())); // 将流的内容复制到内存流中并转换为byte数组 
                     }
