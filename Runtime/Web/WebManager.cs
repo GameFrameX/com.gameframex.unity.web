@@ -231,16 +231,12 @@ namespace GameFrameX.Web.Runtime
                     using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
                         string content = await reader.ReadToEndAsync();
-
-                        m_SendingList.Remove(webData);
                         webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, content));
                     }
                 }
             }
             catch (WebException e)
             {
-                m_SendingList.Remove(webData);
-
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
@@ -252,13 +248,15 @@ namespace GameFrameX.Web.Runtime
             }
             catch (IOException e)
             {
-                m_SendingList.Remove(webData);
                 webData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (Exception e)
             {
-                m_SendingList.Remove(webData);
                 webData.UniTaskCompletionStringSource.SetException(e);
+            }
+            finally
+            {
+                m_SendingList.Remove(webData);
             }
 #endif
         }
@@ -344,7 +342,6 @@ namespace GameFrameX.Web.Runtime
             }
             catch (WebException e)
             {
-                m_SendingList.Remove(webData);
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
@@ -356,13 +353,15 @@ namespace GameFrameX.Web.Runtime
             }
             catch (IOException e)
             {
-                m_SendingList.Remove(webData);
                 webData.UniTaskCompletionBytesSource.SetException(e);
             }
             catch (Exception e)
             {
-                m_SendingList.Remove(webData);
                 webData.UniTaskCompletionBytesSource.SetException(e);
+            }
+            finally
+            {
+                m_SendingList.Remove(webData);
             }
 #endif
         }
