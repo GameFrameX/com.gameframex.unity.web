@@ -175,7 +175,7 @@ namespace GameFrameX.Web.Runtime
             if (webData.Form != null && webData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
-                string body = Utility.Json.ToJson(webData.Form);
+                string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
                 byte[] postData = Encoding.UTF8.GetBytes(body);
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
@@ -209,7 +209,7 @@ namespace GameFrameX.Web.Runtime
                 if (webData.Form != null && webData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
-                    string body = Utility.Json.ToJson(webData.Form);
+                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
                     byte[] postData = Encoding.UTF8.GetBytes(body);
                     request.ContentLength = postData.Length;
                     using (Stream requestStream = request.GetRequestStream())
@@ -278,7 +278,7 @@ namespace GameFrameX.Web.Runtime
             if (webData.Form != null && webData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
-                string body = Utility.Json.ToJson(webData.Form);
+                string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
                 byte[] postData = Encoding.UTF8.GetBytes(body);
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
@@ -320,7 +320,7 @@ namespace GameFrameX.Web.Runtime
                 if (webData.Form != null && webData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
-                    string body = Utility.Json.ToJson(webData.Form);
+                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
                     byte[] postData = Encoding.UTF8.GetBytes(body);
                     request.ContentLength = postData.Length;
                     using (Stream requestStream = request.GetRequestStream())
