@@ -4,7 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using GameFrameX.Network.Runtime;
 using GameFrameX.Runtime;
+using ProtoBuf;
 #if UNITY_WEBGL
 using UnityEngine.Networking;
 #endif
@@ -15,9 +17,13 @@ namespace GameFrameX.Web.Runtime
     public partial class WebManager : GameFrameworkModule, IWebManager
     {
         private readonly StringBuilder m_StringBuilder = new StringBuilder(256);
-        private readonly Queue<WebData> m_WaitingQueue = new Queue<WebData>(256);
-        private readonly List<WebData> m_SendingList = new List<WebData>(16);
+        private readonly Queue<WebJsonData> m_WaitingNormalQueue = new Queue<WebJsonData>(256);
+        private readonly List<WebJsonData> m_SendingNormalList = new List<WebJsonData>(16);
+
+
         private readonly MemoryStream m_MemoryStream;
+
+        private const string JsonContentType = "application/json; charset=utf-8";
         private float m_Timeout = 5f;
 
         [UnityEngine.Scripting.Preserve]
@@ -46,46 +52,49 @@ namespace GameFrameX.Web.Runtime
         {
             lock (m_StringBuilder)
             {
-                if (m_SendingList.Count < MaxConnectionPerServer)
+                if (m_SendingNormalList.Count < MaxConnectionPerServer)
                 {
-                    if (m_WaitingQueue.Count > 0)
+                    if (m_WaitingNormalQueue.Count > 0)
                     {
-                        var webData = m_WaitingQueue.Dequeue();
+                        var webJsonData = m_WaitingNormalQueue.Dequeue();
 
-                        if (webData.UniTaskCompletionStringSource != null)
+                        if (webJsonData.UniTaskCompletionStringSource != null)
                         {
-                            MakeStringRequest(webData);
+                            MakeJsonStringRequest(webJsonData);
                         }
                         else
                         {
-                            MakeBytesRequest(webData);
+                            MakeJsonBytesRequest(webJsonData);
                         }
 
-                        m_SendingList.Add(webData);
+
+                        m_SendingNormalList.Add(webJsonData);
                     }
                 }
+
+                UpdateProtoBuf(elapseSeconds, realElapseSeconds);
             }
         }
 
         protected override void Shutdown()
         {
-            while (m_WaitingQueue.Count > 0)
+            while (m_WaitingNormalQueue.Count > 0)
             {
-                var webData = m_WaitingQueue.Dequeue();
-                webData.UniTaskCompletionBytesSource?.TrySetCanceled();
-                webData.UniTaskCompletionStringSource?.TrySetCanceled();
+                var webData = m_WaitingNormalQueue.Dequeue();
+                webData.Dispose();
             }
 
-            m_WaitingQueue.Clear();
-            while (m_SendingList.Count > 0)
+            m_WaitingNormalQueue.Clear();
+            while (m_SendingNormalList.Count > 0)
             {
-                var webData = m_SendingList[0];
-                m_SendingList.RemoveAt(0);
-                webData.UniTaskCompletionBytesSource?.TrySetCanceled();
-                webData.UniTaskCompletionStringSource?.TrySetCanceled();
+                var webData = m_SendingNormalList[0];
+                m_SendingNormalList.RemoveAt(0);
+                webData.Dispose();
             }
 
-            m_SendingList.Clear();
+            m_SendingNormalList.Clear();
+            ShutdownProtoBuf();
+
             m_MemoryStream.Dispose();
         }
 
@@ -153,36 +162,36 @@ namespace GameFrameX.Web.Runtime
             var uniTaskCompletionSource = new TaskCompletionSource<WebStringResult>();
             url = UrlHandler(url, queryString);
 
-            WebData webData = new WebData(url, header, true, uniTaskCompletionSource, userData);
-            m_WaitingQueue.Enqueue(webData);
+            WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
+            m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
 
-        private async void MakeStringRequest(WebData webData)
+        private async void MakeJsonStringRequest(WebJsonData webJsonData)
         {
 #if UNITY_WEBGL
             UnityWebRequest unityWebRequest;
-            if (webData.IsGet)
+            if (webJsonData.IsGet)
             {
-                unityWebRequest = UnityWebRequest.Get(webData.URL);
+                unityWebRequest = UnityWebRequest.Get(webJsonData.URL);
             }
             else
             {
-                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.Post(webJsonData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
-            if (webData.Form != null && webData.Form.Count > 0)
+            if (webJsonData.Form != null && webJsonData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
-                string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
+                string body = GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form);
                 byte[] postData = Encoding.UTF8.GetBytes(body);
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
 
-            if (webData.Header != null && webData.Header.Count > 0)
+            if (webJsonData.Header != null && webJsonData.Header.Count > 0)
             {
-                foreach (var kv in webData.Header)
+                foreach (var kv in webJsonData.Header)
                 {
                     unityWebRequest.SetRequestHeader(kv.Key, kv.Value);
                 }
@@ -191,25 +200,25 @@ namespace GameFrameX.Web.Runtime
             var asyncOperation = unityWebRequest.SendWebRequest();
             asyncOperation.completed += (asyncOperation2) =>
             {
-                m_SendingList.Remove(webData);
+                m_SendingNormalList.Remove(webJsonData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
-                    webData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
+                    webJsonData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
                     return;
                 }
 
-                webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, unityWebRequest.downloadHandler.text));
+                webJsonData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webJsonData.UserData, unityWebRequest.downloadHandler.text));
             };
 #else
             try
             {
-                HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
-                request.Method = webData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
+                HttpWebRequest request = WebRequest.CreateHttp(webJsonData.URL);
+                request.Method = webJsonData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
                 request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
-                if (webData.Form != null && webData.Form.Count > 0)
+                if (webJsonData.Form != null && webJsonData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
-                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
+                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form);
                     byte[] postData = Encoding.UTF8.GetBytes(body);
                     request.ContentLength = postData.Length;
                     using (Stream requestStream = request.GetRequestStream())
@@ -218,9 +227,9 @@ namespace GameFrameX.Web.Runtime
                     }
                 }
 
-                if (webData.Header != null && webData.Header.Count > 0)
+                if (webJsonData.Header != null && webJsonData.Header.Count > 0)
                 {
-                    foreach (var kv in webData.Header)
+                    foreach (var kv in webJsonData.Header)
                     {
                         request.Headers[kv.Key] = kv.Value;
                     }
@@ -231,7 +240,7 @@ namespace GameFrameX.Web.Runtime
                     using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
                         string content = await reader.ReadToEndAsync();
-                        webData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webData.UserData, content));
+                        webJsonData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webJsonData.UserData, content));
                     }
                 }
             }
@@ -240,52 +249,52 @@ namespace GameFrameX.Web.Runtime
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    webData.UniTaskCompletionStringSource.SetException(new TimeoutException(e.Message));
+                    webJsonData.UniTaskCompletionStringSource.SetException(new TimeoutException(e.Message));
                     return;
                 }
 
-                webData.UniTaskCompletionStringSource.SetException(e);
+                webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (IOException e)
             {
-                webData.UniTaskCompletionStringSource.SetException(e);
+                webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (Exception e)
             {
-                webData.UniTaskCompletionStringSource.SetException(e);
+                webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             finally
             {
-                m_SendingList.Remove(webData);
+                m_SendingNormalList.Remove(webJsonData);
             }
 #endif
         }
 
-        private async void MakeBytesRequest(WebData webData)
+        private async void MakeJsonBytesRequest(WebJsonData webJsonData)
         {
 #if UNITY_WEBGL
             UnityWebRequest unityWebRequest;
-            if (webData.IsGet)
+            if (webJsonData.IsGet)
             {
-                unityWebRequest = UnityWebRequest.Get(webData.URL);
+                unityWebRequest = UnityWebRequest.Get(webJsonData.URL);
             }
             else
             {
-                unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
+                unityWebRequest = UnityWebRequest.Post(webJsonData.URL, string.Empty);
             }
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
-            if (webData.Form != null && webData.Form.Count > 0)
+            if (webJsonData.Form != null && webJsonData.Form.Count > 0)
             {
                 unityWebRequest.SetRequestHeader("Content-Type", "application/json");
-                string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
+                string body = GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form);
                 byte[] postData = Encoding.UTF8.GetBytes(body);
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
 
-            if (webData.Header != null && webData.Header.Count > 0)
+            if (webJsonData.Header != null && webJsonData.Header.Count > 0)
             {
-                foreach (var kv in webData.Header)
+                foreach (var kv in webJsonData.Header)
                 {
                     unityWebRequest.SetRequestHeader(kv.Key, kv.Value);
                 }
@@ -294,33 +303,33 @@ namespace GameFrameX.Web.Runtime
             var asyncOperation = unityWebRequest.SendWebRequest();
             asyncOperation.completed += (asyncOperation2) =>
             {
-                m_SendingList.Remove(webData);
+                m_SendingNormalList.Remove(webJsonData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
-                    webData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
+                    webJsonData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
                     return;
                 }
 
-                webData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
+                webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, unityWebRequest.downloadHandler.data));
             };
 #else
             try
             {
-                HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
-                request.Method = webData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
+                HttpWebRequest request = WebRequest.CreateHttp(webJsonData.URL);
+                request.Method = webJsonData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
                 request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
-                if (webData.Header != null && webData.Header.Count > 0)
+                if (webJsonData.Header != null && webJsonData.Header.Count > 0)
                 {
-                    foreach (var kv in webData.Header)
+                    foreach (var kv in webJsonData.Header)
                     {
                         request.Headers[kv.Key] = kv.Value;
                     }
                 }
 
-                if (webData.Form != null && webData.Form.Count > 0)
+                if (webJsonData.Form != null && webJsonData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
-                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webData.Form);
+                    string body = GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form);
                     byte[] postData = Encoding.UTF8.GetBytes(body);
                     request.ContentLength = postData.Length;
                     using (Stream requestStream = request.GetRequestStream())
@@ -336,7 +345,7 @@ namespace GameFrameX.Web.Runtime
                         m_MemoryStream.SetLength(responseStream.Length);
                         m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
-                        webData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webData.UserData, m_MemoryStream.ToArray())); // 将流的内容复制到内存流中并转换为byte数组 
+                        webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, m_MemoryStream.ToArray())); // 将流的内容复制到内存流中并转换为byte数组 
                     }
                 }
             }
@@ -345,23 +354,23 @@ namespace GameFrameX.Web.Runtime
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    webData.UniTaskCompletionBytesSource.SetException(new TimeoutException(e.Message));
+                    webJsonData.UniTaskCompletionBytesSource.SetException(new TimeoutException(e.Message));
                     return;
                 }
 
-                webData.UniTaskCompletionBytesSource.SetException(e);
+                webJsonData.UniTaskCompletionBytesSource.SetException(e);
             }
             catch (IOException e)
             {
-                webData.UniTaskCompletionBytesSource.SetException(e);
+                webJsonData.UniTaskCompletionBytesSource.SetException(e);
             }
             catch (Exception e)
             {
-                webData.UniTaskCompletionBytesSource.SetException(e);
+                webJsonData.UniTaskCompletionBytesSource.SetException(e);
             }
             finally
             {
-                m_SendingList.Remove(webData);
+                m_SendingNormalList.Remove(webJsonData);
             }
 #endif
         }
@@ -380,8 +389,8 @@ namespace GameFrameX.Web.Runtime
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
             url = UrlHandler(url, queryString);
 
-            WebData webData = new WebData(url, header, true, uniTaskCompletionSource, userData);
-            m_WaitingQueue.Enqueue(webData);
+            WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
+            m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
 
@@ -456,8 +465,8 @@ namespace GameFrameX.Web.Runtime
             var uniTaskCompletionSource = new TaskCompletionSource<WebStringResult>();
             url = UrlHandler(url, queryString);
 
-            WebData webData = new WebData(url, header, from, uniTaskCompletionSource, userData);
-            m_WaitingQueue.Enqueue(webData);
+            WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
+            m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
 
@@ -475,11 +484,10 @@ namespace GameFrameX.Web.Runtime
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
             url = UrlHandler(url, queryString);
-            WebData webData = new WebData(url, header, from, uniTaskCompletionSource, userData);
-            m_WaitingQueue.Enqueue(webData);
+            WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
+            m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
-
 
         /// <summary>
         /// URL 标准化
