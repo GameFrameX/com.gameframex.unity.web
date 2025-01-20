@@ -13,14 +13,31 @@ using UnityEngine.Networking;
 
 namespace GameFrameX.Web.Runtime
 {
+    /// <summary>
+    /// Web请求管理器的ProtoBuf部分实现
+    /// </summary>
     public partial class WebManager : GameFrameworkModule, IWebManager
     {
+        /// <summary>
+        /// 等待处理的ProtoBuf请求队列
+        /// </summary>
         private readonly Queue<WebProtoBufData> m_WaitingProtoBufQueue = new Queue<WebProtoBufData>(256);
+
+        /// <summary>
+        /// 正在处理的ProtoBuf请求列表
+        /// </summary>
         private readonly List<WebProtoBufData> m_SendingProtoBufList = new List<WebProtoBufData>(16);
 
+        /// <summary>
+        /// ProtoBuf内容类型常量
+        /// </summary>
         private const string ProtoBufContentType = "application/x-protobuf";
 
-
+        /// <summary>
+        /// 更新处理ProtoBuf请求队列
+        /// </summary>
+        /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位</param>
+        /// <param name="realElapseSeconds">真实流逝时间，以秒为单位</param>
         void UpdateProtoBuf(float elapseSeconds, float realElapseSeconds)
         {
             lock (m_StringBuilder)
@@ -39,6 +56,9 @@ namespace GameFrameX.Web.Runtime
             }
         }
 
+        /// <summary>
+        /// 关闭ProtoBuf请求处理，清理资源
+        /// </summary>
         private void ShutdownProtoBuf()
         {
             while (m_WaitingProtoBufQueue.Count > 0)
@@ -60,7 +80,10 @@ namespace GameFrameX.Web.Runtime
             m_MemoryStream.Dispose();
         }
 
-
+        /// <summary>
+        /// 执行ProtoBuf字节请求
+        /// </summary>
+        /// <param name="webData">ProtoBuf请求数据</param>
         private async void MakeProtoBufBytesRequest(WebProtoBufData webData)
         {
 #if UNITY_WEBGL
@@ -144,7 +167,6 @@ namespace GameFrameX.Web.Runtime
 #endif
         }
 
-
         /// <summary>
         /// 发送Post请求。
         /// </summary>
@@ -177,6 +199,13 @@ namespace GameFrameX.Web.Runtime
             return default;
         }
 
+        /// <summary>
+        /// 内部Post请求处理方法
+        /// </summary>
+        /// <param name="url">请求URL</param>
+        /// <param name="message">消息对象</param>
+        /// <param name="userData">用户自定义数据</param>
+        /// <returns>返回WebBufferResult类型的异步任务</returns>
         private Task<WebBufferResult> PostInner(string url, MessageObject message, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();

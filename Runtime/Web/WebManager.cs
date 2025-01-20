@@ -13,19 +13,30 @@ using UnityEngine.Networking;
 
 namespace GameFrameX.Web.Runtime
 {
+    /// <summary>
+    /// Web请求管理器,实现HTTP GET和POST请求功能
+    /// </summary>
     [UnityEngine.Scripting.Preserve]
     public partial class WebManager : GameFrameworkModule, IWebManager
     {
+        // 用于构建URL的StringBuilder
         private readonly StringBuilder m_StringBuilder = new StringBuilder(256);
+        // 等待处理的普通请求队列
         private readonly Queue<WebJsonData> m_WaitingNormalQueue = new Queue<WebJsonData>(256);
+        // 正在处理的普通请求列表
         private readonly List<WebJsonData> m_SendingNormalList = new List<WebJsonData>(16);
 
-
+        // 用于存储请求和响应数据的内存流
         private readonly MemoryStream m_MemoryStream;
 
+        // JSON内容类型常量
         private const string JsonContentType = "application/json; charset=utf-8";
+        // 超时时间(秒)
         private float m_Timeout = 5f;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         [UnityEngine.Scripting.Preserve]
         public WebManager()
         {
@@ -34,6 +45,9 @@ namespace GameFrameX.Web.Runtime
             Timeout = 5f;
         }
 
+        /// <summary>
+        /// 获取或设置超时时间(秒)
+        /// </summary>
         public float Timeout
         {
             get { return m_Timeout; }
@@ -44,10 +58,19 @@ namespace GameFrameX.Web.Runtime
             }
         }
 
+        /// <summary>
+        /// 获取或设置每个服务器的最大连接数
+        /// </summary>
         public int MaxConnectionPerServer { get; set; }
 
+        /// <summary>
+        /// 获取或设置请求超时时间
+        /// </summary>
         public TimeSpan RequestTimeout { get; set; }
 
+        /// <summary>
+        /// 更新处理请求队列
+        /// </summary>
         protected override void Update(float elapseSeconds, float realElapseSeconds)
         {
             lock (m_StringBuilder)
@@ -76,6 +99,9 @@ namespace GameFrameX.Web.Runtime
             }
         }
 
+        /// <summary>
+        /// 关闭时清理资源
+        /// </summary>
         protected override void Shutdown()
         {
             while (m_WaitingNormalQueue.Count > 0)
@@ -167,6 +193,9 @@ namespace GameFrameX.Web.Runtime
             return uniTaskCompletionSource.Task;
         }
 
+        /// <summary>
+        /// 处理JSON字符串请求
+        /// </summary>
         private async void MakeJsonStringRequest(WebJsonData webJsonData)
         {
 #if UNITY_WEBGL
@@ -270,6 +299,9 @@ namespace GameFrameX.Web.Runtime
 #endif
         }
 
+        /// <summary>
+        /// 处理JSON字节数组请求
+        /// </summary>
         private async void MakeJsonBytesRequest(WebJsonData webJsonData)
         {
 #if UNITY_WEBGL
@@ -492,9 +524,9 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// URL 标准化
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="queryString"></param>
-        /// <returns></returns>
+        /// <param name="url">原始URL</param>
+        /// <param name="queryString">查询参数字典</param>
+        /// <returns>标准化后的URL</returns>
         private string UrlHandler(string url, Dictionary<string, string> queryString)
         {
             m_StringBuilder.Clear();
