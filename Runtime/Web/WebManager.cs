@@ -21,8 +21,10 @@ namespace GameFrameX.Web.Runtime
     {
         // 用于构建URL的StringBuilder
         private readonly StringBuilder m_StringBuilder = new StringBuilder(256);
+
         // 等待处理的普通请求队列
         private readonly Queue<WebJsonData> m_WaitingNormalQueue = new Queue<WebJsonData>(256);
+
         // 正在处理的普通请求列表
         private readonly List<WebJsonData> m_SendingNormalList = new List<WebJsonData>(16);
 
@@ -31,6 +33,7 @@ namespace GameFrameX.Web.Runtime
 
         // JSON内容类型常量
         private const string JsonContentType = "application/json; charset=utf-8";
+
         // 超时时间(秒)
         private float m_Timeout = 5f;
 
@@ -198,6 +201,10 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         private async void MakeJsonStringRequest(WebJsonData webJsonData)
         {
+#if ENABLE_GAMEFRAMEX_WEB_SEND_LOG
+            Log.Debug($"Web Request: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)}");
+#endif
+
 #if UNITY_WEBGL
             UnityWebRequest unityWebRequest;
             if (webJsonData.IsGet)
@@ -232,10 +239,15 @@ namespace GameFrameX.Web.Runtime
                 m_SendingNormalList.Remove(webJsonData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                    Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.error}");
+#endif
                     webJsonData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
                     return;
                 }
-
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.downloadHandler.text}");
+#endif
                 webJsonData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webJsonData.UserData, unityWebRequest.downloadHandler.text));
             };
 #else
@@ -269,6 +281,9 @@ namespace GameFrameX.Web.Runtime
                     using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
                         string content = await reader.ReadToEndAsync();
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                        Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {content}");
+#endif
                         webJsonData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webJsonData.UserData, content));
                     }
                 }
@@ -281,15 +296,23 @@ namespace GameFrameX.Web.Runtime
                     webJsonData.UniTaskCompletionStringSource.SetException(new TimeoutException(e.Message));
                     return;
                 }
-
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (IOException e)
             {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             catch (Exception e)
             {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 webJsonData.UniTaskCompletionStringSource.SetException(e);
             }
             finally
@@ -304,6 +327,10 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         private async void MakeJsonBytesRequest(WebJsonData webJsonData)
         {
+#if ENABLE_GAMEFRAMEX_WEB_SEND_LOG
+            Log.Debug($"Web Request: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)}");
+#endif
+
 #if UNITY_WEBGL
             UnityWebRequest unityWebRequest;
             if (webJsonData.IsGet)
@@ -338,10 +365,15 @@ namespace GameFrameX.Web.Runtime
                 m_SendingNormalList.Remove(webJsonData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                    Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.error}");
+#endif
                     webJsonData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
                     return;
                 }
-
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.downloadHandler.data}");
+#endif
                 webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, unityWebRequest.downloadHandler.data));
             };
 #else
@@ -377,12 +409,19 @@ namespace GameFrameX.Web.Runtime
                         m_MemoryStream.SetLength(responseStream.Length);
                         m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
-                        webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, m_MemoryStream.ToArray())); // 将流的内容复制到内存流中并转换为byte数组 
+                        var resultData = m_MemoryStream.ToArray();
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                        Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {resultData}");
+#endif
+                        webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
                     }
                 }
             }
             catch (WebException e)
             {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
@@ -394,10 +433,16 @@ namespace GameFrameX.Web.Runtime
             }
             catch (IOException e)
             {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 webJsonData.UniTaskCompletionBytesSource.SetException(e);
             }
             catch (Exception e)
             {
+#if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
+                Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {e.Message}");
+#endif
                 webJsonData.UniTaskCompletionBytesSource.SetException(e);
             }
             finally
@@ -425,7 +470,6 @@ namespace GameFrameX.Web.Runtime
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
-
 
         /// <summary>
         /// 发送Post 请求
@@ -480,7 +524,6 @@ namespace GameFrameX.Web.Runtime
         {
             return PostToBytes(url, from, queryString, null, userData);
         }
-
 
         /// <summary>
         /// 发送Post 请求
