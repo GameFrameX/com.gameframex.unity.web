@@ -1,8 +1,16 @@
 # Changelog
 
+## [1.1.6](https://github.com/GameFrameX/com.gameframex.unity.web/tree/1.1.6) (2025-04-07)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.web/compare/1.1.5...1.1.6)
+
 ## [1.1.5](https://github.com/GameFrameX/com.gameframex.unity.web/tree/1.1.5) (2025-01-20)
 
-[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.web/compare/1.1.2...1.1.5)
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.web/compare/1.1.3...1.1.5)
+
+## [1.1.3](https://github.com/GameFrameX/com.gameframex.unity.web/tree/1.1.3) (2024-12-30)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.web/compare/1.1.2...1.1.3)
 
 ## [1.1.2](https://github.com/GameFrameX/com.gameframex.unity.web/tree/1.1.2) (2024-12-27)
 
