@@ -256,6 +256,7 @@ namespace GameFrameX.Web.Runtime
                 HttpWebRequest request = WebRequest.CreateHttp(webJsonData.URL);
                 request.Method = webJsonData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
                 request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
+                request.Credentials = CredentialCache.DefaultCredentials;
                 if (webJsonData.Form != null && webJsonData.Form.Count > 0)
                 {
                     request.ContentType = "application/json";
@@ -382,6 +383,7 @@ namespace GameFrameX.Web.Runtime
                 HttpWebRequest request = WebRequest.CreateHttp(webJsonData.URL);
                 request.Method = webJsonData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
                 request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
+                request.Credentials = CredentialCache.DefaultCredentials;
                 if (webJsonData.Header != null && webJsonData.Header.Count > 0)
                 {
                     foreach (var kv in webJsonData.Header)
