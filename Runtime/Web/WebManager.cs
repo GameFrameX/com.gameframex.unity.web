@@ -99,6 +99,7 @@ namespace GameFrameX.Web.Runtime
                 }
 
                 UpdateProtoBuf(elapseSeconds, realElapseSeconds);
+                UpdateBinary(elapseSeconds, realElapseSeconds);
             }
         }
 
@@ -123,7 +124,7 @@ namespace GameFrameX.Web.Runtime
 
             m_SendingNormalList.Clear();
             ShutdownProtoBuf();
-
+            ShutdownBinary();
             m_MemoryStream.Dispose();
         }
 

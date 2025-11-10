@@ -127,6 +127,18 @@ namespace GameFrameX.Web.Runtime
         /// <returns>返回WebBufferResult类型的异步任务</returns>
         Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
 
+        /// <summary>
+        /// 发送字节数组Post请求，返回字节数组结果
+        /// </summary>
+        /// <param name="url">请求地址</param>
+        /// <param name="from">要发送的字节数组数据</param>
+        /// <param name="queryString">URL查询参数字典</param>
+        /// <param name="header">HTTP请求头字典</param>
+        /// <param name="userData">用户自定义数据</param>
+        /// <returns>返回WebBufferResult类型的异步任务</returns>
+        Task<WebBufferResult> PostToBytes(string url, byte[] from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
+
+
 #if ENABLE_GAME_FRAME_X_WEB_PROTOBUF_NETWORK
         /// <summary>
         /// 发送Protobuf消息的Post请求，并接收指定类型的响应
