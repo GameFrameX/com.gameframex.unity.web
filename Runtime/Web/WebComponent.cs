@@ -221,6 +221,20 @@ namespace GameFrameX.Web.Runtime
             return m_WebManager.PostToBytes(url, from, queryString, header, userData);
         }
 
+        /// <summary>
+        /// 发送带查询参数和请求头的Post请求，返回字节数组结果。
+        /// </summary>
+        /// <param name="url">请求地址</param>
+        /// <param name="fromData">表单数据字节数组，作为请求体发送</param>
+        /// <param name="queryString">URL查询参数字典，会被附加到URL后面</param>
+        /// <param name="header">HTTP请求头字典</param>
+        /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
+        /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        public Task<WebBufferResult> PostToBytes(string url, byte[] fromData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
+        {
+            return m_WebManager.PostToBytes(url, fromData, queryString, header, userData);
+        }
+
 #if ENABLE_GAME_FRAME_X_WEB_PROTOBUF_NETWORK
         /// <summary>
         /// 发送Post请求，用于发送和接收Protocol Buffer消息。
