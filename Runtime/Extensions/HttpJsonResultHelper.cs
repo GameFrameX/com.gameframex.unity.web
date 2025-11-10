@@ -10,13 +10,13 @@ namespace GameFrameX.Web.Runtime
     public static class HttpJsonResultHelper
     {
         /// <summary>
-        /// 将JSON字符串转换为HttpJsonResultData<T>对象。
+        /// 将JSON字符串转换为HttpJsonResultData&lt;T&gt;对象。
         /// 该方法尝试反序列化给定的JSON字符串，并根据HTTP响应的状态码设置IsSuccess属性。
         /// 如果响应成功，Data属性将包含反序列化后的数据对象；否则，Data将为默认值。
         /// </summary>
         /// <typeparam name="T">要反序列化为的对象类型，必须是类并具有无参数构造函数。</typeparam>
         /// <param name="jsonResult">包含HTTP响应的JSON字符串。</param>
-        /// <returns>HttpJsonResultData<T>对象，表示反序列化的结果。</returns>
+        /// <returns>HttpJsonResultData&lt;T&gt;对象，表示反序列化的结果。</returns>
         public static HttpJsonResultData<T> ToHttpJsonResultData<T>(this string jsonResult) where T : class, new()
         {
             HttpJsonResultData<T> resultData = new HttpJsonResultData<T>
