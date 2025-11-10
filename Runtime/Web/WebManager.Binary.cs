@@ -29,6 +29,11 @@ namespace GameFrameX.Web.Runtime
         private readonly List<WebBinaryData> m_SendingBinaryList = new List<WebBinaryData>(16);
 
         /// <summary>
+        /// Binary内容类型常量
+        /// </summary>
+        private const string BinaryContentType = "application/octet-stream";
+
+        /// <summary>
         /// 更新处理ProtoBuf请求队列
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位</param>
@@ -94,6 +99,7 @@ namespace GameFrameX.Web.Runtime
 
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             {
+                unityWebRequest.SetRequestHeader("Content-Type", BinaryContentType);
                 byte[] postData = webData.SendData;
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
@@ -116,6 +122,7 @@ namespace GameFrameX.Web.Runtime
                 HttpWebRequest request = WebRequest.CreateHttp(webData.URL);
                 request.Method = webData.IsGet ? WebRequestMethods.Http.Get : WebRequestMethods.Http.Post;
                 request.Timeout = (int)RequestTimeout.TotalMilliseconds; // 设置请求超时时间
+                request.ContentType = BinaryContentType;
                 byte[] postData = webData.SendData;
                 request.ContentLength = postData.Length;
                 using (Stream requestStream = request.GetRequestStream())
@@ -157,6 +164,7 @@ namespace GameFrameX.Web.Runtime
             {
                 m_SendingBinaryList.Remove(webData);
             }
+
 #endif
         }
 
