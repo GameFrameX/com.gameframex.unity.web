@@ -20,7 +20,7 @@ namespace GameFrameX.Web.Runtime
     /// 可以设置请求超时时间。
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/Web")]
+    [AddComponentMenu("GameFrameX/Web")]
     [UnityEngine.Scripting.Preserve]
     public sealed class WebComponent : GameFrameworkComponent
     {
