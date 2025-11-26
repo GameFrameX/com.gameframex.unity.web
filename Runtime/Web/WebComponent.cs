@@ -258,24 +258,5 @@ namespace GameFrameX.Web.Runtime
         {
             return m_WebManager.PostToBytes(url, fromData, queryString, header, userData);
         }
-
-#if ENABLE_GAME_FRAME_X_WEB_PROTOBUF_NETWORK
-        /// <summary>
-        /// 发送Post请求，用于发送和接收Protocol Buffer消息。
-        /// 此方法仅在启用ENABLE_GAME_FRAME_X_WEB_PROTOBUF_NETWORK宏定义时可用。
-        /// </summary>
-        /// <param name="url">目标服务器的URL地址</param>
-        /// <param name="message">要发送的Protocol Buffer消息对象，必须继承自MessageObject</param>
-        /// <typeparam name="T">返回的数据类型，必须继承自MessageObject并且实现IResponseMessage接口</typeparam>
-        /// <returns>返回一个任务对象，该任务完成时将包含从服务器接收到的Protocol Buffer响应数据，数据类型为T</returns>
-        /// <remarks>
-        /// 此方法专门用于处理Protocol Buffer格式的请求和响应。
-        /// 发送的消息和接收的响应都必须是Protocol Buffer消息类型。
-        /// </remarks>
-        public Task<T> Post<T>(string url, GameFrameX.Network.Runtime.MessageObject message) where T : GameFrameX.Network.Runtime.MessageObject, GameFrameX.Network.Runtime.IResponseMessage
-        {
-            return m_WebManager.Post<T>(url, message);
-        }
-#endif
     }
 }

@@ -7,7 +7,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// Web请求数据的基类，包含请求的基本信息
         /// </summary>
-        private class WebData : IDisposable
+        public class WebData : IDisposable
         {
             /// <summary>
             /// 获取用户自定义数据
