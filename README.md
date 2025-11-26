@@ -1,156 +1,365 @@
-﻿## HOMEPAGE
+# GameFrameX Web 组件
 
-GameFrameX 的Web 请求组件
+[![Unity Version](https://img.shields.io/badge/Unity-2019.4%2B-blue.svg)](https://unity3d.com)
+[![Version](https://img.shields.io/badge/version-1.1.8-green.svg)](package.json)
+[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
 
-**Web 请求 组件 (Web Request)** - 提供使用短连接的功能，可以用 Get 或者 Post 方法向服务器发送请求并获取响应数据，可指定允许几个 Web 请求器进行同时请求。
+GameFrameX Web 组件是一个高性能的 Unity HTTP 网络请求库，提供简洁易用的 API 来处理各种网络请求场景。支持 GET、POST 请求，可处理字符串、JSON、二进制数据等多种格式。
 
-# 使用文档(文档编写于GPT4)
+## ✨ 特性
 
-# WebComponent 说明文档
+- 🚀 **高性能异步处理** - 基于 C# Task 异步模式，支持 async/await
+- 📦 **多数据格式支持** - 字符串、JSON、二进制数据、Protocol Buffers
+- 🌐 **跨平台兼容** - 支持 WebGL、PC、移动平台
+- ⚡ **连接池管理** - 智能连接复用，支持最大并发连接数控制
+- 🔒 **安全可靠** - 完善的错误处理和超时机制
+- 🛠️ **易于扩展** - 模块化设计，支持自定义数据序列化
 
-`WebComponent` 类是一个游戏框架组件，用作处理网络请求的模块。它提供了一系列方法来发送 GET 和 POST 请求，并获取返回的字符串或字节数组数据。以下是该类的详细说明和使用方法。
+## 📦 安装
 
-## 功能概述
+### 通过 Git URL 安装（推荐）
 
-- 初始化网络管理器
-- 发送 GET 请求并获取返回的字符串或字节数组
-- 发送 POST 请求并获取返回的字符串或字节数组
+1. 在 Unity 编辑器中打开 Package Manager
+2. 点击 "+" 按钮选择 "Add package from git URL"
+3. 输入以下 URL：
+   ```
+   https://github.com/gameframex/com.gameframex.unity.web.git
+   ```
 
-## 方法说明
+### 通过 manifest.json 安装
 
-### Awake
+在项目的 `Packages/manifest.json` 文件中添加：
 
-初始化游戏框架组件。创建 `WebManager` 实例并获取网络管理器模块。
-
-```csharp
-protected override void Awake() { /* 方法体省略 */ }
-```
-
-### GetToString（重载1）
-
-发送 GET 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> GetToString(string url) { /* 方法体省略 */ }
-```
-
-### GetToString（重载2）
-
-发送带参数的 GET 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> GetToString(string url, Dictionary<string, string> queryString) { /* 方法体省略 */ }
-```
-
-### GetToString（重载3）
-
-发送带参数和请求头的 GET 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header) { /* 方法体省略 */ }
-```
-
-### GetToBytes（重载1）
-
-发送 GET 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> GetToBytes(string url) { /* 方法体省略 */ }
-```
-
-### GetToBytes（重载2）
-
-发送带参数的 GET 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString) { /* 方法体省略 */ }
-```
-
-### GetToBytes（重载3）
-
-发送带参数和请求头的 GET 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header) { /* 方法体省略 */ }
-```
-
-### PostToString（重载1）
-
-发送 POST 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> PostToString(string url, Dictionary<string, string> from = null) { /* 方法体省略 */ }
-```
-
-### PostToString（重载2）
-
-发送带表单和 URL 请求参数的 POST 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString) { /* 方法体省略 */ }
-```
-
-### PostToString（重载3）
-
-发送带表单、URL 请求参数和请求头的 POST 请求并以字符串形式获取响应。
-
-```csharp
-public Task<string> PostToString(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header) { /* 方法体省略 */ }
-```
-
-### PostToBytes（重载1）
-
-发送 POST 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> PostToBytes(string url, Dictionary<string, string> from) { /* 方法体省略 */ }
-```
-
-### PostToBytes（重载2）
-
-发送带表单和 URL 请求参数的 POST 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString) { /* 方法体省略 */ }
-```
-
-### PostToBytes（重载3）
-
-发送带表单、URL 请求参数和请求头的 POST 请求并以字节数组形式获取响应。
-
-```csharp
-public Task<byte[]> PostToBytes(string url, Dictionary<string, string> from, Dictionary<string, string> queryString, Dictionary<string, string> header) { /* 方法体省略 */ }
-```
-
-## 使用示例
-
-1. 调用 `GetToString` 方法获取不带参数的 GET 请求响应字符串：
-
-```csharp
-Task<string> response = webComponent.GetToString("http://example.com/api/values");
-```
-
-2. 使用 `PostToBytes` 方法发送带表单参数的 POST 请求，并以字节数组接收响应：
-
-```csharp
-Dictionary<string, string> formData = new Dictionary<string, string>
+```json
 {
-    { "param1", "value1" },
-    { "param2", "value2" }
-};
-Task<byte[]> responseBytes = webComponent.PostToBytes("http://example.com/api/upload", formData);
+  "dependencies": {
+    "com.gameframex.unity.web": "https://github.com/gameframex/com.gameframex.unity.web.git",
+    "com.gameframex.unity": "https://github.com/gameframex/com.gameframex.unity.git"
+  }
+}
 ```
 
-## 注意事项
+### 手动安装
 
-确保在网络请求期间合适地处理任务，例如使用 `await` 异步等待结果。
+1. 下载最新版本发布包
+2. 解压到项目的 `Packages` 目录下
+3. Unity 会自动识别并加载包
 
-# 使用方式(任选其一)
+## 🚀 快速开始
 
-1. 直接在 `manifest.json` 的文件中的 `dependencies` 节点下添加以下内容
-   ```json
-      {"com.gameframex.unity.web": "https://github.com/AlianBlank/com.gameframex.unity.web.git"}
-    ```
-2. 在Unity 的`Packages Manager` 中使用`Git URL` 的方式添加库,地址为：https://github.com/AlianBlank/com.gameframex.unity.web.git
+### 基本用法
 
-3. 直接下载仓库放置到Unity 项目的`Packages` 目录下。会自动加载识别
+```csharp
+using GameFrameX.Web.Runtime;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+public class WebExample : MonoBehaviour
+{
+    private IWebManager webManager;
+    
+    private async void Start()
+    {
+        // 获取 Web 管理器实例
+        webManager = GameFrameworkEntry.GetModule<IWebManager>();
+        
+        // 发送 GET 请求获取字符串
+        string result = await webManager.GetToString("https://api.example.com/data");
+        Debug.Log("GET Response: " + result);
+        
+        // 发送 POST 请求带表单数据
+        var formData = new Dictionary<string, string>
+        {
+            { "username", "testuser" },
+            { "password", "testpass" }
+        };
+        
+        string postResult = await webManager.PostToString("https://api.example.com/login", formData);
+        Debug.Log("POST Response: " + postResult);
+    }
+}
+```
+
+### 使用 WebComponent（推荐）
+
+```csharp
+using GameFrameX.Web.Runtime;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+public class MyWebService : MonoBehaviour
+{
+    private WebComponent webComponent;
+    
+    private void Awake()
+    {
+        webComponent = gameObject.GetOrAddComponent<WebComponent>();
+    }
+    
+    public async Task<string> GetUserDataAsync(string userId)
+    {
+        var queryParams = new Dictionary<string, string>
+        {
+            { "userId", userId }
+        };
+        
+        var headers = new Dictionary<string, string>
+        {
+            { "Authorization", "Bearer your-token-here" }
+        };
+        
+        return await webComponent.GetToString(
+            "https://api.example.com/users", 
+            queryParams, 
+            headers
+        );
+    }
+    
+    public async Task<byte[]> DownloadFileAsync(string fileUrl)
+    {
+        return await webComponent.GetToBytes(fileUrl);
+    }
+}
+```
+
+## 📚 API 参考
+
+### 核心接口：IWebManager
+
+#### GET 请求
+
+```csharp
+// 获取字符串响应
+Task<string> GetToString(string url);
+Task<string> GetToString(string url, Dictionary<string, string> queryString);
+Task<string> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
+
+// 获取字节数组响应
+Task<byte[]> GetToBytes(string url);
+Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString);
+Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
+```
+
+#### POST 请求
+
+```csharp
+// 表单 POST 请求
+Task<string> PostToString(string url, Dictionary<string, string> formData = null);
+Task<string> PostToString(string url, Dictionary<string, string> formData, Dictionary<string, string> queryString);
+Task<string> PostToString(string url, Dictionary<string, string> formData, Dictionary<string, string> queryString, Dictionary<string, string> header);
+
+Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData);
+Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictionary<string, string> queryString);
+Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictionary<string, string> queryString, Dictionary<string, string> header);
+
+// 二进制数据 POST 请求
+Task<WebBufferResult> PostToBytes(string url, byte[] binaryData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
+```
+
+#### 高级功能
+
+```csharp
+// Protocol Buffers 支持
+Task<T> GetProtoBuf<T>(string url) where T : class, IExtensible;
+Task<T> PostProtoBuf<T>(string url, IExtensible requestData) where T : class, IExtensible;
+
+// JSON 支持（通过扩展方法）
+Task<T> GetJson<T>(string url);
+Task<T> PostJson<T>(string url, object data);
+```
+
+### 配置选项
+
+```csharp
+// 设置请求超时时间（默认：30秒）
+TimeSpan RequestTimeout { get; set; }
+
+// 设置最大并发连接数（默认：8）
+int MaxConnectionPerServer { get; set; }
+
+// 启用/禁用详细日志
+bool EnableWebLog { get; set; }
+```
+
+## 🔧 高级用法
+
+### 处理二进制数据上传
+
+```csharp
+public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
+{
+    var webManager = GameFrameworkEntry.GetModule<IWebManager>();
+    
+    var queryParams = new Dictionary<string, string>
+    {
+        { "fileName", fileName }
+    };
+    
+    var headers = new Dictionary<string, string>
+    {
+        { "Content-Type", "application/octet-stream" },
+        { "Authorization", "Bearer your-token" }
+    };
+    
+    WebBufferResult result = await webManager.PostToBytes(
+        "https://api.example.com/upload", 
+        fileData, 
+        queryParams, 
+        headers
+    );
+    
+    if (result.IsSuccess)
+    {
+        Debug.Log("Upload successful!");
+        byte[] responseData = result.Data;
+        // 处理响应数据
+    }
+}
+```
+
+### 使用 Protocol Buffers
+
+```csharp
+[ProtoContract]
+public class UserRequest
+{
+    [ProtoMember(1)]
+    public string UserId { get; set; }
+}
+
+[ProtoContract] 
+public class UserResponse
+{
+    [ProtoMember(1)]
+    public string UserName { get; set; }
+    
+    [ProtoMember(2)]
+    public string Email { get; set; }
+}
+
+public async Task<UserResponse> GetUserProtoBufAsync(string userId)
+{
+    var request = new UserRequest { UserId = userId };
+    
+    // 使用扩展方法发送 Protocol Buffers 请求
+    return await webManager.PostProtoBuf<UserResponse>(
+        "https://api.example.com/user/protobuf", 
+        request
+    );
+}
+```
+
+### 错误处理
+
+```csharp
+public async Task<string> SafeWebRequestAsync(string url)
+{
+    try
+    {
+        return await webManager.GetToString(url);
+    }
+    catch (WebException ex) when (ex.Status == WebExceptionStatus.Timeout)
+    {
+        Debug.LogError("请求超时: " + ex.Message);
+        return null;
+    }
+    catch (IOException ex)
+    {
+        Debug.LogError("网络IO错误: " + ex.Message);
+        return null;
+    }
+    catch (Exception ex)
+    {
+        Debug.LogError("请求失败: " + ex.Message);
+        return null;
+    }
+}
+```
+
+## ⚙️ 配置
+
+### 在编辑器中配置
+
+1. 在 Unity 编辑器中打开 "GameFrameX/Web" 菜单
+2. 选择 "Web Settings"
+3. 配置以下选项：
+   - **Request Timeout**: 请求超时时间（秒）
+   - **Max Connections**: 最大并发连接数
+   - **Enable Logging**: 启用详细日志输出
+
+### 代码配置
+
+```csharp
+private void ConfigureWebManager()
+{
+    var webManager = GameFrameworkEntry.GetModule<IWebManager>();
+    
+    // 设置请求超时为 60 秒
+    webManager.RequestTimeout = TimeSpan.FromSeconds(60);
+    
+    // 设置最大并发连接数为 16
+    webManager.MaxConnectionPerServer = 16;
+    
+    // 启用详细日志
+    webManager.EnableWebLog = true;
+}
+```
+
+## 🐛 故障排除
+
+### 常见问题
+
+1. **WebGL 平台限制**
+   - WebGL 不支持多线程，所有请求都在主线程处理
+   - 建议使用 `await` 异步等待而不是阻塞调用
+
+2. **跨域问题 (CORS)**
+   - 确保服务器配置了正确的 CORS 头信息
+   - 对于 WebGL 构建，服务器必须支持 OPTIONS 预检请求
+
+3. **HTTPS 证书问题**
+   - 在移动设备上可能需要处理证书验证
+   - 可以使用自定义证书验证回调
+
+### 调试技巧
+
+```csharp
+// 启用详细调试日志
+webManager.EnableWebLog = true;
+
+// 在 Player Settings 中启用 Development Build 和 Script Debugging
+// 这样可以获得更详细的错误信息
+```
+
+## 📋 版本历史
+
+查看 [CHANGELOG.md](CHANGELOG.md) 获取详细的版本更新信息。
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本项目
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE.md](LICENSE.md) 文件了解详情。
+
+## 🔗 相关链接
+
+- [GameFrameX 主项目](https://github.com/gameframex/com.gameframex.unity)
+- [官方文档](https://gameframex.doc.alianblank.com)
+- [示例项目](https://github.com/gameframex/com.gameframex.unity.examples)
+- [问题反馈](https://github.com/gameframex/com.gameframex.unity.web/issues)
+
+## 💬 支持
+
+如果你有任何问题或需要帮助，可以通过以下方式联系我们：
+
+- 📧 邮箱: alianblank@outlook.com
+- 🐛 [提交 Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- 📖 [查看文档](https://gameframex.doc.alianblank.com)
