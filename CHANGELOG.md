@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.1.8...1.2.0) (2025-12-23)
+
+
+### Features
+
+* **WebManager:** 添加二进制数据POST请求支持 ([dc499bd](https://github.com/gameframex/com.gameframex.unity.web/commit/dc499bdbbcd4ce98038a918d472e459299896d45))
+* **Web:** 为二进制请求添加内容类型头 ([216ee49](https://github.com/gameframex/com.gameframex.unity.web/commit/216ee4931e8843db0fdc075d863eddb9b65e0c54))
+* **Web组件:** 添加支持表单数据的Post请求方法 ([8ea40d5](https://github.com/gameframex/com.gameframex.unity.web/commit/8ea40d5b12ec491aefe773cfb2b01447e9608698))
+
 # Changelog
 
 ## [1.1.8](https://github.com/GameFrameX/com.gameframex.unity.web/tree/1.1.8) (2025-05-31)
