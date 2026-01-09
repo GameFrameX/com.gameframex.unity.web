@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using GameFrameX.Runtime;
 
 namespace GameFrameX.Web.Runtime
 {
