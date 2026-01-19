@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -257,6 +257,87 @@ namespace GameFrameX.Web.Runtime
         public Task<WebBufferResult> PostToBytes(string url, byte[] fromData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.PostToBytes(url, fromData, queryString, header, userData);
+        }
+
+        /// <summary>
+        /// 添加基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        /// <param name="value">表单值</param>
+        public void AddBaseForm(string key, object value)
+        {
+            m_WebManager.AddBaseForm(key, value);
+        }
+
+        /// <summary>
+        /// 移除基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        public void RemoveBaseForm(string key)
+        {
+            m_WebManager.RemoveBaseForm(key);
+        }
+
+        /// <summary>
+        /// 清空基础表单数据
+        /// </summary>
+        public void ClearBaseForm()
+        {
+            m_WebManager.ClearBaseForm();
+        }
+
+        /// <summary>
+        /// 添加基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        /// <param name="value">请求头值</param>
+        public void AddBaseHeader(string key, string value)
+        {
+            m_WebManager.AddBaseHeader(key, value);
+        }
+
+        /// <summary>
+        /// 移除基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        public void RemoveBaseHeader(string key)
+        {
+            m_WebManager.RemoveBaseHeader(key);
+        }
+
+        /// <summary>
+        /// 清空基础请求头数据
+        /// </summary>
+        public void ClearBaseHeader()
+        {
+            m_WebManager.ClearBaseHeader();
+        }
+
+        /// <summary>
+        /// 添加基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        /// <param name="value">查询参数值</param>
+        public void AddBaseQueryString(string key, string value)
+        {
+            m_WebManager.AddBaseQueryString(key, value);
+        }
+
+        /// <summary>
+        /// 移除基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        public void RemoveBaseQueryString(string key)
+        {
+            m_WebManager.RemoveBaseQueryString(key);
+        }
+
+        /// <summary>
+        /// 清空基础查询参数数据
+        /// </summary>
+        public void ClearBaseQueryString()
+        {
+            m_WebManager.ClearBaseQueryString();
         }
     }
 }
