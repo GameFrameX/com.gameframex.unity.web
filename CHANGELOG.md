@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.2.0...1.3.0) (2026-01-19)
+
+
+### Features
+
+* **WebComponent:** 添加基础表单、请求头和查询参数管理方法 ([3924616](https://github.com/gameframex/com.gameframex.unity.web/commit/39246160d934f6c3e74cef7a8bdb8a3d96546c9b))
+* **Web:** 添加基础请求数据管理和合并功能 ([06b701c](https://github.com/gameframex/com.gameframex.unity.web/commit/06b701cd2b33e189425cb35f409cde15f4ace132))
+
 # [1.2.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.1.8...1.2.0) (2025-12-23)
 
 
