@@ -37,6 +37,10 @@ namespace GameFrameX.Web.Runtime
         // 超时时间(秒)
         private float m_Timeout = 5f;
 
+        private readonly Dictionary<string, object> m_BaseForm = new Dictionary<string, object>(64);
+        private readonly Dictionary<string, string> m_BaseHeader = new Dictionary<string, string>(64);
+        private readonly Dictionary<string, string> m_BaseQueryString = new Dictionary<string, string>(64);
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -188,6 +192,8 @@ namespace GameFrameX.Web.Runtime
         public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebStringResult>();
+            queryString = MergeQueryString(queryString);
+            header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
             WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
@@ -465,6 +471,8 @@ namespace GameFrameX.Web.Runtime
         public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
+            queryString = MergeQueryString(queryString);
+            header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
             WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
@@ -539,6 +547,9 @@ namespace GameFrameX.Web.Runtime
         public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebStringResult>();
+            from = MergeForm(from);
+            queryString = MergeQueryString(queryString);
+            header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
             WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
@@ -559,11 +570,187 @@ namespace GameFrameX.Web.Runtime
         public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
+            from = MergeForm(from);
+            queryString = MergeQueryString(queryString);
+            header = MergeHeader(header);
             url = UrlHandler(url, queryString);
             WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
+
+        #region Base Data Management
+
+        /// <summary>
+        /// 添加基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        /// <param name="value">表单值</param>
+        public void AddBaseForm(string key, object value)
+        {
+            m_BaseForm[key] = value;
+        }
+
+        /// <summary>
+        /// 移除基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        public void RemoveBaseForm(string key)
+        {
+            if (m_BaseForm.ContainsKey(key))
+            {
+                m_BaseForm.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 清空基础表单数据
+        /// </summary>
+        public void ClearBaseForm()
+        {
+            m_BaseForm.Clear();
+        }
+
+        /// <summary>
+        /// 添加基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        /// <param name="value">请求头值</param>
+        public void AddBaseHeader(string key, string value)
+        {
+            m_BaseHeader[key] = value;
+        }
+
+        /// <summary>
+        /// 移除基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        public void RemoveBaseHeader(string key)
+        {
+            if (m_BaseHeader.ContainsKey(key))
+            {
+                m_BaseHeader.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 清空基础请求头数据
+        /// </summary>
+        public void ClearBaseHeader()
+        {
+            m_BaseHeader.Clear();
+        }
+
+        /// <summary>
+        /// 添加基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        /// <param name="value">查询参数值</param>
+        public void AddBaseQueryString(string key, string value)
+        {
+            m_BaseQueryString[key] = value;
+        }
+
+        /// <summary>
+        /// 移除基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        public void RemoveBaseQueryString(string key)
+        {
+            if (m_BaseQueryString.ContainsKey(key))
+            {
+                m_BaseQueryString.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 清空基础查询参数数据
+        /// </summary>
+        public void ClearBaseQueryString()
+        {
+            m_BaseQueryString.Clear();
+        }
+
+        #endregion
+
+        #region Data Merging
+
+        /// <summary>
+        /// 合并表单数据
+        /// </summary>
+        /// <param name="form">本次请求的表单数据</param>
+        /// <returns>合并后的表单数据</returns>
+        private Dictionary<string, object> MergeForm(Dictionary<string, object> form)
+        {
+            if (m_BaseForm.Count == 0)
+            {
+                return form;
+            }
+
+            // 复制基础数据
+            var result = new Dictionary<string, object>(m_BaseForm);
+
+            // 覆盖/添加外部数据
+            if (form != null)
+            {
+                foreach (var kv in form)
+                {
+                    result[kv.Key] = kv.Value;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 合并请求头数据
+        /// </summary>
+        /// <param name="header">本次请求的请求头数据</param>
+        /// <returns>合并后的请求头数据</returns>
+        private Dictionary<string, string> MergeHeader(Dictionary<string, string> header)
+        {
+            if (m_BaseHeader.Count == 0)
+            {
+                return header;
+            }
+
+            var result = new Dictionary<string, string>(m_BaseHeader);
+            if (header != null)
+            {
+                foreach (var kv in header)
+                {
+                    result[kv.Key] = kv.Value;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 合并查询参数数据
+        /// </summary>
+        /// <param name="queryString">本次请求的查询参数数据</param>
+        /// <returns>合并后的查询参数数据</returns>
+        private Dictionary<string, string> MergeQueryString(Dictionary<string, string> queryString)
+        {
+            if (m_BaseQueryString.Count == 0)
+            {
+                return queryString;
+            }
+
+            var result = new Dictionary<string, string>(m_BaseQueryString);
+            if (queryString != null)
+            {
+                foreach (var kv in queryString)
+                {
+                    result[kv.Key] = kv.Value;
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
 
         /// <summary>
         /// URL 标准化

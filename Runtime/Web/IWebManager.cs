@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameFrameX.Web.Runtime
@@ -142,5 +142,59 @@ namespace GameFrameX.Web.Runtime
         /// 超时时间
         /// </summary>
         float Timeout { get; set; }
+
+        /// <summary>
+        /// 添加基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        /// <param name="value">表单值</param>
+        void AddBaseForm(string key, object value);
+
+        /// <summary>
+        /// 移除基础表单数据
+        /// </summary>
+        /// <param name="key">表单键</param>
+        void RemoveBaseForm(string key);
+
+        /// <summary>
+        /// 清空基础表单数据
+        /// </summary>
+        void ClearBaseForm();
+
+        /// <summary>
+        /// 添加基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        /// <param name="value">请求头值</param>
+        void AddBaseHeader(string key, string value);
+
+        /// <summary>
+        /// 移除基础请求头数据
+        /// </summary>
+        /// <param name="key">请求头键</param>
+        void RemoveBaseHeader(string key);
+
+        /// <summary>
+        /// 清空基础请求头数据
+        /// </summary>
+        void ClearBaseHeader();
+
+        /// <summary>
+        /// 添加基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        /// <param name="value">查询参数值</param>
+        void AddBaseQueryString(string key, string value);
+
+        /// <summary>
+        /// 移除基础查询参数数据
+        /// </summary>
+        /// <param name="key">查询参数键</param>
+        void RemoveBaseQueryString(string key);
+
+        /// <summary>
+        /// 清空基础查询参数数据
+        /// </summary>
+        void ClearBaseQueryString();
     }
 }

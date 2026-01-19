@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -104,6 +104,14 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest.uploadHandler = new UploadHandlerRaw(postData);
             }
 
+            if (webData.Header != null && webData.Header.Count > 0)
+            {
+                foreach (var kv in webData.Header)
+                {
+                    unityWebRequest.SetRequestHeader(kv.Key, kv.Value);
+                }
+            }
+
             var asyncOperation = unityWebRequest.SendWebRequest();
             asyncOperation.completed += (asyncOperation2) =>
             {
@@ -128,6 +136,14 @@ namespace GameFrameX.Web.Runtime
                 using (Stream requestStream = request.GetRequestStream())
                 {
                     await requestStream.WriteAsync(postData, 0, postData.Length);
+                }
+
+                if (webData.Header != null && webData.Header.Count > 0)
+                {
+                    foreach (var kv in webData.Header)
+                    {
+                        request.Headers[kv.Key] = kv.Value;
+                    }
                 }
 
                 using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
@@ -181,8 +197,10 @@ namespace GameFrameX.Web.Runtime
         public Task<WebBufferResult> PostToBytes(string url, byte[] from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();
+            queryString = MergeQueryString(queryString);
+            header = MergeHeader(header);
             url = UrlHandler(url, queryString);
-            var webData = new WebBinaryData(url, from, uniTaskCompletionSource, userData);
+            var webData = new WebBinaryData(url, header, from, uniTaskCompletionSource, userData);
             m_SendingBinaryList.Add(webData);
             MakeBinaryBytesRequest(webData);
             return uniTaskCompletionSource.Task;
