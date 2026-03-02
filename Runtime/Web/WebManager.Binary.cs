@@ -97,6 +97,7 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest = UnityWebRequest.Post(webData.URL, string.Empty);
             }
 
+            unityWebRequest.certificateHandler = new DefaultBypassCertificate();
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             {
                 unityWebRequest.SetRequestHeader("Content-Type", BinaryContentType);

@@ -221,6 +221,7 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest = UnityWebRequest.Post(webJsonData.URL, string.Empty);
             }
 
+            unityWebRequest.certificateHandler = new DefaultBypassCertificate();
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             if (webJsonData.Form != null && webJsonData.Form.Count > 0)
             {
@@ -348,6 +349,7 @@ namespace GameFrameX.Web.Runtime
                 unityWebRequest = UnityWebRequest.Post(webJsonData.URL, string.Empty);
             }
 
+            unityWebRequest.certificateHandler = new DefaultBypassCertificate();
             unityWebRequest.timeout = (int)RequestTimeout.TotalSeconds;
             if (webJsonData.Form != null && webJsonData.Form.Count > 0)
             {
