@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.0...1.3.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* **Web:** 为所有POST请求添加默认证书验证绕过 ([ad703b5](https://github.com/gameframex/com.gameframex.unity.web/commit/ad703b5fd78fcb97f96a63bfa2a6b0269a090754))
+
 # [1.3.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.2.0...1.3.0) (2026-01-19)
 
 
