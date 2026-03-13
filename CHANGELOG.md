@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.1...1.3.2) (2026-03-13)
+
+
+### Bug Fixes
+
+* **WebManager:** 修复Transfer-Encoding存在时设置内存流长度的问题 ([53a5a5b](https://github.com/gameframex/com.gameframex.unity.web/commit/53a5a5ba38649cdf19541eeca2f4e3404e458d4e))
+
 ## [1.3.1](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.0...1.3.1) (2026-03-02)
 
 
