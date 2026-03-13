@@ -3,7 +3,7 @@
   "displayName": "Game Frame X Web",
   "category": "Game Framework X",
   "description": "独立游戏前后端一体化解决方案,独立游戏开发者的圆梦大使。\n文档地址: https://gameframex.doc.alianblank.com \n Game Frame X Web组件 - Unity网络功能包，提供HTTP请求。支持GET、POST常用网络操作，可自定义请求头和参数。采用现代C#开发中的异步/等待模式，使网络操作更加简单高效。",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "unity": "2019.4",
   "keywords": [
     "Game Framework X"
