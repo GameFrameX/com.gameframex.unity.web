@@ -151,10 +151,16 @@ namespace GameFrameX.Web.Runtime
                 {
                     using (Stream responseStream = response.GetResponseStream())
                     {
-                        m_MemoryStream.SetLength(response.ContentLength);
+                        var transferEncoding = response.Headers.Get("Transfer-Encoding");
+                        if (string.IsNullOrWhiteSpace(transferEncoding))
+                        {
+                            m_MemoryStream.SetLength(response.ContentLength);
+                        }
+
                         m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
-                        webData.Task.SetResult(new WebBufferResult(webData.UserData, m_MemoryStream.ToArray())); // 将流的内容复制到内存流中并转换为byte数组 
+                        var resultData = m_MemoryStream.ToArray();
+                        webData.Task.SetResult(new WebBufferResult(webData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
                     }
                 }
             }
