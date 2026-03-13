@@ -156,6 +156,10 @@ namespace GameFrameX.Web.Runtime
                         {
                             m_MemoryStream.SetLength(response.ContentLength);
                         }
+                        else
+                        {
+                            m_MemoryStream.SetLength(0);
+                        }
 
                         m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
