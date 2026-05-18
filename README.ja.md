@@ -7,42 +7,42 @@
   [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.web)](https://github.com/GameFrameX/com.gameframex.unity.web/releases)
   [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
 
-  All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
+  インディゲーム開発者向けオールインワンソリューション · インディ開発者の夢を支援
 
-  [Documentation](https://gameframex.doc.alianblank.com) | [Quick Start](#quick-start)
+  [ドキュメント](https://gameframex.doc.alianblank.com) | [クイックスタート](#クイックスタート)
 
-  **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+  [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | **日本語** | [한국어](README.ko.md)
 </div>
 
 ---
 
-## Project Overview
+## プロジェクト概要
 
-GameFrameX Web is a high-performance Unity HTTP networking library that provides a clean and easy-to-use API for handling various network request scenarios. It supports GET and POST requests, and can process strings, JSON, binary data, and other formats.
+GameFrameX Web コンポーネントは、高性能な Unity HTTP ネットワークライブラリで、様々なネットワークリクエストシナリオを処理するためのシンプルで使いやすい API を提供します。GET、POST リクエストに対応し、文字列、JSON、バイナリデータなど複数の形式を処理できます。
 
-## Features
+## 特徴
 
-- **High-Performance Async** - Based on C# Task async pattern, supports async/await
-- **Multiple Data Formats** - String, JSON, binary data, Protocol Buffers
-- **Cross-Platform** - Supports WebGL, PC, and mobile platforms
-- **Connection Pool Management** - Smart connection reuse with max concurrent connections control
-- **Secure & Reliable** - Comprehensive error handling and timeout mechanisms
-- **Easy to Extend** - Modular design, supports custom data serialization
+- **高性能非同期処理** - C# Task 非同期パターンに基づき、async/await をサポート
+- **複数データ形式対応** - 文字列、JSON、バイナリデータ、Protocol Buffers
+- **クロスプラットフォーム** - WebGL、PC、モバイルプラットフォームに対応
+- **コネクションプール管理** - スマートな接続再利用、最大同時接続数制御
+- **安全で信頼性** - 包括的なエラー処理とタイムアウトメカニズム
+- **拡張が容易** - モジュラー設計、カスタムデータシリアライズ対応
 
-## Installation
+## インストール
 
-### Via Git URL (Recommended)
+### Git URL 経由（推奨）
 
-1. Open Package Manager in Unity Editor
-2. Click the "+" button and select "Add package from git URL"
-3. Enter the following URL:
+1. Unity エディタで Package Manager を開く
+2. "+" ボタンをクリックし "Add package from git URL" を選択
+3. 以下の URL を入力：
    ```
    https://github.com/gameframex/com.gameframex.unity.web.git
    ```
 
-### Via manifest.json
+### manifest.json 経由
 
-Add the following to your project's `Packages/manifest.json`:
+プロジェクトの `Packages/manifest.json` に以下を追加：
 
 ```json
 {
@@ -53,15 +53,15 @@ Add the following to your project's `Packages/manifest.json`:
 }
 ```
 
-### Manual Installation
+### 手動インストール
 
-1. Download the latest release package
-2. Extract it to your project's `Packages` directory
-3. Unity will automatically recognize and load the package
+1. 最新のリリースパッケージをダウンロード
+2. プロジェクトの `Packages` ディレクトリに展開
+3. Unity が自動的にパッケージを認識して読み込みます
 
-## Quick Start
+## クイックスタート
 
-### Basic Usage
+### 基本的な使い方
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -74,14 +74,14 @@ public class WebExample : MonoBehaviour
 
     private async void Start()
     {
-        // Get WebManager instance
+        // WebManager インスタンスを取得
         webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-        // Send GET request for string response
+        // GET リクエストで文字列を取得
         string result = await webManager.GetToString("https://api.example.com/data");
         Debug.Log("GET Response: " + result);
 
-        // Send POST request with form data
+        // POST リクエストでフォームデータを送信
         var formData = new Dictionary<string, string>
         {
             { "username", "testuser" },
@@ -94,7 +94,7 @@ public class WebExample : MonoBehaviour
 }
 ```
 
-### Using WebComponent (Recommended)
+### WebComponent の使用（推奨）
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -136,9 +136,9 @@ public class MyWebService : MonoBehaviour
 }
 ```
 
-## Usage Examples
+## 使用例
 
-### Binary Data Upload
+### バイナリデータのアップロード
 
 ```csharp
 public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
@@ -171,7 +171,7 @@ public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
 }
 ```
 
-### Using Protocol Buffers
+### Protocol Buffers の使用
 
 ```csharp
 [ProtoContract]
@@ -201,7 +201,7 @@ public async Task<UserResponse> GetUserProtoBufAsync(string userId)
 }
 ```
 
-### Error Handling
+### エラー処理
 
 ```csharp
 public async Task<string> SafeWebRequestAsync(string url)
@@ -212,27 +212,27 @@ public async Task<string> SafeWebRequestAsync(string url)
     }
     catch (WebException ex) when (ex.Status == WebExceptionStatus.Timeout)
     {
-        Debug.LogError("Request timeout: " + ex.Message);
+        Debug.LogError("リクエストタイムアウト: " + ex.Message);
         return null;
     }
     catch (IOException ex)
     {
-        Debug.LogError("Network IO error: " + ex.Message);
+        Debug.LogError("ネットワークIOエラー: " + ex.Message);
         return null;
     }
     catch (Exception ex)
     {
-        Debug.LogError("Request failed: " + ex.Message);
+        Debug.LogError("リクエスト失敗: " + ex.Message);
         return null;
     }
 }
 ```
 
-## API Reference
+## API リファレンス
 
-### Core Interface: IWebManager
+### コアインターフェース：IWebManager
 
-#### GET Requests
+#### GET リクエスト
 
 ```csharp
 Task<string> GetToString(string url);
@@ -244,7 +244,7 @@ Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString);
 Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
 ```
 
-#### POST Requests
+#### POST リクエスト
 
 ```csharp
 Task<string> PostToString(string url, Dictionary<string, string> formData = null);
@@ -258,103 +258,103 @@ Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictio
 Task<WebBufferResult> PostToBytes(string url, byte[] binaryData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
 ```
 
-#### Advanced Features
+#### 高度な機能
 
 ```csharp
-// Protocol Buffers support
+// Protocol Buffers サポート
 Task<T> GetProtoBuf<T>(string url) where T : class, IExtensible;
 Task<T> PostProtoBuf<T>(string url, IExtensible requestData) where T : class, IExtensible;
 
-// JSON support (via extension methods)
+// JSON サポート（拡張メソッド経由）
 Task<T> GetJson<T>(string url);
 Task<T> PostJson<T>(string url, object data);
 ```
 
-### Configuration Options
+### 設定オプション
 
 ```csharp
-// Request timeout (default: 30 seconds)
+// リクエストタイムアウト（デフォルト：30秒）
 TimeSpan RequestTimeout { get; set; }
 
-// Max concurrent connections (default: 8)
+// 最大同時接続数（デフォルト：8）
 int MaxConnectionPerServer { get; set; }
 
-// Enable/disable verbose logging
+// 詳細ログの有効/無効
 bool EnableWebLog { get; set; }
 ```
 
-## Platform Support
+## プラットフォーム対応
 
-| Platform | Supported | Notes |
-|----------|-----------|-------|
-| Windows | Yes | Full support |
-| macOS | Yes | Full support |
-| Linux | Yes | Full support |
-| Android | Yes | Full support |
-| iOS | Yes | Full support |
-| WebGL | Yes | Single-threaded, all requests processed on main thread |
+| プラットフォーム | 対応状況 | 備考 |
+|-----------------|----------|------|
+| Windows | 対応 | 完全対応 |
+| macOS | 対応 | 完全対応 |
+| Linux | 対応 | 完全対応 |
+| Android | 対応 | 完全対応 |
+| iOS | 対応 | 完全対応 |
+| WebGL | 対応 | マルチスレッド非対応、すべてのリクエストはメインスレッドで処理 |
 
-### Configuration
+### 設定
 
 ```csharp
 private void ConfigureWebManager()
 {
     var webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-    // Set request timeout to 60 seconds
+    // リクエストタイムアウトを60秒に設定
     webManager.RequestTimeout = TimeSpan.FromSeconds(60);
 
-    // Set max concurrent connections to 16
+    // 最大同時接続数を16に設定
     webManager.MaxConnectionPerServer = 16;
 
-    // Enable verbose logging
+    // 詳細ログを有効化
     webManager.EnableWebLog = true;
 }
 ```
 
-### Troubleshooting
+### トラブルシューティング
 
-1. **WebGL Platform Limitations**
-   - WebGL does not support multi-threading; all requests are processed on the main thread
-   - Use `await` for async operations instead of blocking calls
+1. **WebGL プラットフォームの制限**
+   - WebGL はマルチスレッドをサポートしていません。すべてのリクエストはメインスレッドで処理されます
+   - ブロッキング呼び出しではなく `await` を使用することをお勧めします
 
-2. **CORS Issues**
-   - Ensure the server has correct CORS headers configured
-   - For WebGL builds, the server must support OPTIONS preflight requests
+2. **CORS の問題**
+   - サーバーに正しい CORS ヘッダーが設定されていることを確認してください
+   - WebGL ビルドの場合、サーバーは OPTIONS プリフライトリクエストをサポートする必要があります
 
-3. **HTTPS Certificate Issues**
-   - Mobile devices may require custom certificate validation
-   - Use a custom certificate validation callback
+3. **HTTPS 証明書の問題**
+   - モバイルデバイスでは証明書検証の処理が必要な場合があります
+   - カスタム証明書検証コールバックを使用できます
 
-## Documentation & Resources
+## ドキュメントとリソース
 
-- [GameFrameX Main Project](https://github.com/gameframex/com.gameframex.unity)
-- [Official Documentation](https://gameframex.doc.alianblank.com)
-- [Example Project](https://github.com/gameframex/com.gameframex.unity.examples)
-- [Report Issues](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [GameFrameX メインプロジェクト](https://github.com/gameframex/com.gameframex.unity)
+- [公式ドキュメント](https://gameframex.doc.alianblank.com)
+- [サンプルプロジェクト](https://github.com/gameframex/com.gameframex.unity.examples)
+- [イシュー報告](https://github.com/gameframex/com.gameframex.unity.web/issues)
 
-## Community & Support
+## コミュニティとサポート
 
-If you have any questions or need help, reach out through:
+ご質問やサポートが必要な場合は、以下の方法でお問い合わせください：
 
-- Email: alianblank@outlook.com
-- [Submit an Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
-- [Read the Docs](https://gameframex.doc.alianblank.com)
+- メール: alianblank@outlook.com
+- [イシューを報告](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [ドキュメントを参照](https://gameframex.doc.alianblank.com)
 
-## Contributing
+## コントリビュート
 
-Contributions are welcome! Please feel free to submit Issues and Pull Requests.
+Issue や Pull Request をお気軽に提出ください！
 
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
+1. このプロジェクトをフォーク
+2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. Pull Request を作成
 
-## Changelog
+## 変更履歴
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+詳細なバージョン更新情報は [CHANGELOG.md](CHANGELOG.md) をご覧ください。
 
-## License
+## ライセンス
 
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
+このプロジェクトは MIT ライセンスの下で公開されています - 詳細は [LICENSE.md](LICENSE.md) をご覧ください。

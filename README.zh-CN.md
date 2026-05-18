@@ -7,42 +7,42 @@
   [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.web)](https://github.com/GameFrameX/com.gameframex.unity.web/releases)
   [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
 
-  All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
+  独立游戏前后端一体化解决方案 · 独立游戏开发者的圆梦大使
 
-  [Documentation](https://gameframex.doc.alianblank.com) | [Quick Start](#quick-start)
+  [文档](https://gameframex.doc.alianblank.com) | [快速开始](#快速开始)
 
-  **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+  [English](README.md) | **简体中文** | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 </div>
 
 ---
 
-## Project Overview
+## 项目简介
 
-GameFrameX Web is a high-performance Unity HTTP networking library that provides a clean and easy-to-use API for handling various network request scenarios. It supports GET and POST requests, and can process strings, JSON, binary data, and other formats.
+GameFrameX Web 组件是一个高性能的 Unity HTTP 网络请求库，提供简洁易用的 API 来处理各种网络请求场景。支持 GET、POST 请求，可处理字符串、JSON、二进制数据等多种格式。
 
-## Features
+## 特性
 
-- **High-Performance Async** - Based on C# Task async pattern, supports async/await
-- **Multiple Data Formats** - String, JSON, binary data, Protocol Buffers
-- **Cross-Platform** - Supports WebGL, PC, and mobile platforms
-- **Connection Pool Management** - Smart connection reuse with max concurrent connections control
-- **Secure & Reliable** - Comprehensive error handling and timeout mechanisms
-- **Easy to Extend** - Modular design, supports custom data serialization
+- **高性能异步处理** - 基于 C# Task 异步模式，支持 async/await
+- **多数据格式支持** - 字符串、JSON、二进制数据、Protocol Buffers
+- **跨平台兼容** - 支持 WebGL、PC、移动平台
+- **连接池管理** - 智能连接复用，支持最大并发连接数控制
+- **安全可靠** - 完善的错误处理和超时机制
+- **易于扩展** - 模块化设计，支持自定义数据序列化
 
-## Installation
+## 安装
 
-### Via Git URL (Recommended)
+### 通过 Git URL 安装（推荐）
 
-1. Open Package Manager in Unity Editor
-2. Click the "+" button and select "Add package from git URL"
-3. Enter the following URL:
+1. 在 Unity 编辑器中打开 Package Manager
+2. 点击 "+" 按钮选择 "Add package from git URL"
+3. 输入以下 URL：
    ```
    https://github.com/gameframex/com.gameframex.unity.web.git
    ```
 
-### Via manifest.json
+### 通过 manifest.json 安装
 
-Add the following to your project's `Packages/manifest.json`:
+在项目的 `Packages/manifest.json` 文件中添加：
 
 ```json
 {
@@ -53,15 +53,15 @@ Add the following to your project's `Packages/manifest.json`:
 }
 ```
 
-### Manual Installation
+### 手动安装
 
-1. Download the latest release package
-2. Extract it to your project's `Packages` directory
-3. Unity will automatically recognize and load the package
+1. 下载最新版本发布包
+2. 解压到项目的 `Packages` 目录下
+3. Unity 会自动识别并加载包
 
-## Quick Start
+## 快速开始
 
-### Basic Usage
+### 基本用法
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -74,14 +74,14 @@ public class WebExample : MonoBehaviour
 
     private async void Start()
     {
-        // Get WebManager instance
+        // 获取 Web 管理器实例
         webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-        // Send GET request for string response
+        // 发送 GET 请求获取字符串
         string result = await webManager.GetToString("https://api.example.com/data");
         Debug.Log("GET Response: " + result);
 
-        // Send POST request with form data
+        // 发送 POST 请求带表单数据
         var formData = new Dictionary<string, string>
         {
             { "username", "testuser" },
@@ -94,7 +94,7 @@ public class WebExample : MonoBehaviour
 }
 ```
 
-### Using WebComponent (Recommended)
+### 使用 WebComponent（推荐）
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -136,9 +136,9 @@ public class MyWebService : MonoBehaviour
 }
 ```
 
-## Usage Examples
+## 使用示例
 
-### Binary Data Upload
+### 处理二进制数据上传
 
 ```csharp
 public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
@@ -171,7 +171,7 @@ public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
 }
 ```
 
-### Using Protocol Buffers
+### 使用 Protocol Buffers
 
 ```csharp
 [ProtoContract]
@@ -201,7 +201,7 @@ public async Task<UserResponse> GetUserProtoBufAsync(string userId)
 }
 ```
 
-### Error Handling
+### 错误处理
 
 ```csharp
 public async Task<string> SafeWebRequestAsync(string url)
@@ -212,27 +212,27 @@ public async Task<string> SafeWebRequestAsync(string url)
     }
     catch (WebException ex) when (ex.Status == WebExceptionStatus.Timeout)
     {
-        Debug.LogError("Request timeout: " + ex.Message);
+        Debug.LogError("请求超时: " + ex.Message);
         return null;
     }
     catch (IOException ex)
     {
-        Debug.LogError("Network IO error: " + ex.Message);
+        Debug.LogError("网络IO错误: " + ex.Message);
         return null;
     }
     catch (Exception ex)
     {
-        Debug.LogError("Request failed: " + ex.Message);
+        Debug.LogError("请求失败: " + ex.Message);
         return null;
     }
 }
 ```
 
-## API Reference
+## API 参考
 
-### Core Interface: IWebManager
+### 核心接口：IWebManager
 
-#### GET Requests
+#### GET 请求
 
 ```csharp
 Task<string> GetToString(string url);
@@ -244,7 +244,7 @@ Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString);
 Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
 ```
 
-#### POST Requests
+#### POST 请求
 
 ```csharp
 Task<string> PostToString(string url, Dictionary<string, string> formData = null);
@@ -258,103 +258,103 @@ Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictio
 Task<WebBufferResult> PostToBytes(string url, byte[] binaryData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
 ```
 
-#### Advanced Features
+#### 高级功能
 
 ```csharp
-// Protocol Buffers support
+// Protocol Buffers 支持
 Task<T> GetProtoBuf<T>(string url) where T : class, IExtensible;
 Task<T> PostProtoBuf<T>(string url, IExtensible requestData) where T : class, IExtensible;
 
-// JSON support (via extension methods)
+// JSON 支持（通过扩展方法）
 Task<T> GetJson<T>(string url);
 Task<T> PostJson<T>(string url, object data);
 ```
 
-### Configuration Options
+### 配置选项
 
 ```csharp
-// Request timeout (default: 30 seconds)
+// 设置请求超时时间（默认：30秒）
 TimeSpan RequestTimeout { get; set; }
 
-// Max concurrent connections (default: 8)
+// 设置最大并发连接数（默认：8）
 int MaxConnectionPerServer { get; set; }
 
-// Enable/disable verbose logging
+// 启用/禁用详细日志
 bool EnableWebLog { get; set; }
 ```
 
-## Platform Support
+## 平台支持
 
-| Platform | Supported | Notes |
-|----------|-----------|-------|
-| Windows | Yes | Full support |
-| macOS | Yes | Full support |
-| Linux | Yes | Full support |
-| Android | Yes | Full support |
-| iOS | Yes | Full support |
-| WebGL | Yes | Single-threaded, all requests processed on main thread |
+| 平台 | 支持情况 | 备注 |
+|------|----------|------|
+| Windows | 支持 | 完全支持 |
+| macOS | 支持 | 完全支持 |
+| Linux | 支持 | 完全支持 |
+| Android | 支持 | 完全支持 |
+| iOS | 支持 | 完全支持 |
+| WebGL | 支持 | 不支持多线程，所有请求在主线程处理 |
 
-### Configuration
+### 配置
 
 ```csharp
 private void ConfigureWebManager()
 {
     var webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-    // Set request timeout to 60 seconds
+    // 设置请求超时为 60 秒
     webManager.RequestTimeout = TimeSpan.FromSeconds(60);
 
-    // Set max concurrent connections to 16
+    // 设置最大并发连接数为 16
     webManager.MaxConnectionPerServer = 16;
 
-    // Enable verbose logging
+    // 启用详细日志
     webManager.EnableWebLog = true;
 }
 ```
 
-### Troubleshooting
+### 常见问题
 
-1. **WebGL Platform Limitations**
-   - WebGL does not support multi-threading; all requests are processed on the main thread
-   - Use `await` for async operations instead of blocking calls
+1. **WebGL 平台限制**
+   - WebGL 不支持多线程，所有请求都在主线程处理
+   - 建议使用 `await` 异步等待而不是阻塞调用
 
-2. **CORS Issues**
-   - Ensure the server has correct CORS headers configured
-   - For WebGL builds, the server must support OPTIONS preflight requests
+2. **跨域问题 (CORS)**
+   - 确保服务器配置了正确的 CORS 头信息
+   - 对于 WebGL 构建，服务器必须支持 OPTIONS 预检请求
 
-3. **HTTPS Certificate Issues**
-   - Mobile devices may require custom certificate validation
-   - Use a custom certificate validation callback
+3. **HTTPS 证书问题**
+   - 在移动设备上可能需要处理证书验证
+   - 可以使用自定义证书验证回调
 
-## Documentation & Resources
+## 文档与资源
 
-- [GameFrameX Main Project](https://github.com/gameframex/com.gameframex.unity)
-- [Official Documentation](https://gameframex.doc.alianblank.com)
-- [Example Project](https://github.com/gameframex/com.gameframex.unity.examples)
-- [Report Issues](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [GameFrameX 主项目](https://github.com/gameframex/com.gameframex.unity)
+- [官方文档](https://gameframex.doc.alianblank.com)
+- [示例项目](https://github.com/gameframex/com.gameframex.unity.examples)
+- [问题反馈](https://github.com/gameframex/com.gameframex.unity.web/issues)
 
-## Community & Support
+## 社区与支持
 
-If you have any questions or need help, reach out through:
+如果你有任何问题或需要帮助，可以通过以下方式联系我们：
 
-- Email: alianblank@outlook.com
-- [Submit an Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
-- [Read the Docs](https://gameframex.doc.alianblank.com)
+- 邮箱: alianblank@outlook.com
+- [提交 Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [查看文档](https://gameframex.doc.alianblank.com)
 
-## Contributing
+## 贡献
 
-Contributions are welcome! Please feel free to submit Issues and Pull Requests.
+欢迎提交 Issue 和 Pull Request！
 
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
+1. Fork 本项目
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
 
-## Changelog
+## 更新日志
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+查看 [CHANGELOG.md](CHANGELOG.md) 获取详细的版本更新信息。
 
-## License
+## 开源协议
 
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
+本项目采用 MIT 许可证 - 查看 [LICENSE.md](LICENSE.md) 文件了解详情。

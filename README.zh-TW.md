@@ -7,42 +7,42 @@
   [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.web)](https://github.com/GameFrameX/com.gameframex.unity.web/releases)
   [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
 
-  All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
+  獨立遊戲前後端一體化解決方案 · 獨立遊戲開發者的圓夢大使
 
-  [Documentation](https://gameframex.doc.alianblank.com) | [Quick Start](#quick-start)
+  [文檔](https://gameframex.doc.alianblank.com) | [快速開始](#快速開始)
 
-  **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+  [English](README.md) | [简体中文](README.zh-CN.md) | **繁體中文** | [日本語](README.ja.md) | [한국어](README.ko.md)
 </div>
 
 ---
 
-## Project Overview
+## 項目簡介
 
-GameFrameX Web is a high-performance Unity HTTP networking library that provides a clean and easy-to-use API for handling various network request scenarios. It supports GET and POST requests, and can process strings, JSON, binary data, and other formats.
+GameFrameX Web 元件是一個高效能的 Unity HTTP 網路請求庫，提供簡潔易用的 API 來處理各種網路請求場景。支援 GET、POST 請求，可處理字串、JSON、二進制資料等多種格式。
 
-## Features
+## 特性
 
-- **High-Performance Async** - Based on C# Task async pattern, supports async/await
-- **Multiple Data Formats** - String, JSON, binary data, Protocol Buffers
-- **Cross-Platform** - Supports WebGL, PC, and mobile platforms
-- **Connection Pool Management** - Smart connection reuse with max concurrent connections control
-- **Secure & Reliable** - Comprehensive error handling and timeout mechanisms
-- **Easy to Extend** - Modular design, supports custom data serialization
+- **高效能非同步處理** - 基於 C# Task 非同步模式，支援 async/await
+- **多資料格式支援** - 字串、JSON、二進制資料、Protocol Buffers
+- **跨平台相容** - 支援 WebGL、PC、行動平台
+- **連線池管理** - 智慧連線複用，支援最大並發連線數控制
+- **安全可靠** - 完善的錯誤處理和超時機制
+- **易於擴展** - 模組化設計，支援自定義資料序列化
 
-## Installation
+## 安裝
 
-### Via Git URL (Recommended)
+### 透過 Git URL 安裝（推薦）
 
-1. Open Package Manager in Unity Editor
-2. Click the "+" button and select "Add package from git URL"
-3. Enter the following URL:
+1. 在 Unity 編輯器中打開 Package Manager
+2. 點擊 "+" 按鈕選擇 "Add package from git URL"
+3. 輸入以下 URL：
    ```
    https://github.com/gameframex/com.gameframex.unity.web.git
    ```
 
-### Via manifest.json
+### 透過 manifest.json 安裝
 
-Add the following to your project's `Packages/manifest.json`:
+在專案的 `Packages/manifest.json` 檔案中新增：
 
 ```json
 {
@@ -53,15 +53,15 @@ Add the following to your project's `Packages/manifest.json`:
 }
 ```
 
-### Manual Installation
+### 手動安裝
 
-1. Download the latest release package
-2. Extract it to your project's `Packages` directory
-3. Unity will automatically recognize and load the package
+1. 下載最新版本發布包
+2. 解壓縮到專案的 `Packages` 目錄下
+3. Unity 會自動識別並載入包
 
-## Quick Start
+## 快速開始
 
-### Basic Usage
+### 基本用法
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -74,14 +74,14 @@ public class WebExample : MonoBehaviour
 
     private async void Start()
     {
-        // Get WebManager instance
+        // 取得 Web 管理器實例
         webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-        // Send GET request for string response
+        // 發送 GET 請求取得字串
         string result = await webManager.GetToString("https://api.example.com/data");
         Debug.Log("GET Response: " + result);
 
-        // Send POST request with form data
+        // 發送 POST 請求帶表單資料
         var formData = new Dictionary<string, string>
         {
             { "username", "testuser" },
@@ -94,7 +94,7 @@ public class WebExample : MonoBehaviour
 }
 ```
 
-### Using WebComponent (Recommended)
+### 使用 WebComponent（推薦）
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -136,9 +136,9 @@ public class MyWebService : MonoBehaviour
 }
 ```
 
-## Usage Examples
+## 使用範例
 
-### Binary Data Upload
+### 處理二進制資料上傳
 
 ```csharp
 public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
@@ -171,7 +171,7 @@ public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
 }
 ```
 
-### Using Protocol Buffers
+### 使用 Protocol Buffers
 
 ```csharp
 [ProtoContract]
@@ -201,7 +201,7 @@ public async Task<UserResponse> GetUserProtoBufAsync(string userId)
 }
 ```
 
-### Error Handling
+### 錯誤處理
 
 ```csharp
 public async Task<string> SafeWebRequestAsync(string url)
@@ -212,27 +212,27 @@ public async Task<string> SafeWebRequestAsync(string url)
     }
     catch (WebException ex) when (ex.Status == WebExceptionStatus.Timeout)
     {
-        Debug.LogError("Request timeout: " + ex.Message);
+        Debug.LogError("請求逾時: " + ex.Message);
         return null;
     }
     catch (IOException ex)
     {
-        Debug.LogError("Network IO error: " + ex.Message);
+        Debug.LogError("網路IO錯誤: " + ex.Message);
         return null;
     }
     catch (Exception ex)
     {
-        Debug.LogError("Request failed: " + ex.Message);
+        Debug.LogError("請求失敗: " + ex.Message);
         return null;
     }
 }
 ```
 
-## API Reference
+## API 參考
 
-### Core Interface: IWebManager
+### 核心介面：IWebManager
 
-#### GET Requests
+#### GET 請求
 
 ```csharp
 Task<string> GetToString(string url);
@@ -244,7 +244,7 @@ Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString);
 Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
 ```
 
-#### POST Requests
+#### POST 請求
 
 ```csharp
 Task<string> PostToString(string url, Dictionary<string, string> formData = null);
@@ -258,103 +258,103 @@ Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictio
 Task<WebBufferResult> PostToBytes(string url, byte[] binaryData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
 ```
 
-#### Advanced Features
+#### 進階功能
 
 ```csharp
-// Protocol Buffers support
+// Protocol Buffers 支援
 Task<T> GetProtoBuf<T>(string url) where T : class, IExtensible;
 Task<T> PostProtoBuf<T>(string url, IExtensible requestData) where T : class, IExtensible;
 
-// JSON support (via extension methods)
+// JSON 支援（透過擴充方法）
 Task<T> GetJson<T>(string url);
 Task<T> PostJson<T>(string url, object data);
 ```
 
-### Configuration Options
+### 設定選項
 
 ```csharp
-// Request timeout (default: 30 seconds)
+// 設定請求逾時時間（預設：30秒）
 TimeSpan RequestTimeout { get; set; }
 
-// Max concurrent connections (default: 8)
+// 設定最大並發連線數（預設：8）
 int MaxConnectionPerServer { get; set; }
 
-// Enable/disable verbose logging
+// 啟用/停用詳細日誌
 bool EnableWebLog { get; set; }
 ```
 
-## Platform Support
+## 平台支援
 
-| Platform | Supported | Notes |
-|----------|-----------|-------|
-| Windows | Yes | Full support |
-| macOS | Yes | Full support |
-| Linux | Yes | Full support |
-| Android | Yes | Full support |
-| iOS | Yes | Full support |
-| WebGL | Yes | Single-threaded, all requests processed on main thread |
+| 平台 | 支援情況 | 備註 |
+|------|----------|------|
+| Windows | 支援 | 完全支援 |
+| macOS | 支援 | 完全支援 |
+| Linux | 支援 | 完全支援 |
+| Android | 支援 | 完全支援 |
+| iOS | 支援 | 完全支援 |
+| WebGL | 支援 | 不支援多執行緒，所有請求在主執行緒處理 |
 
-### Configuration
+### 設定
 
 ```csharp
 private void ConfigureWebManager()
 {
     var webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-    // Set request timeout to 60 seconds
+    // 設定請求逾時為 60 秒
     webManager.RequestTimeout = TimeSpan.FromSeconds(60);
 
-    // Set max concurrent connections to 16
+    // 設定最大並發連線數為 16
     webManager.MaxConnectionPerServer = 16;
 
-    // Enable verbose logging
+    // 啟用詳細日誌
     webManager.EnableWebLog = true;
 }
 ```
 
-### Troubleshooting
+### 常見問題
 
-1. **WebGL Platform Limitations**
-   - WebGL does not support multi-threading; all requests are processed on the main thread
-   - Use `await` for async operations instead of blocking calls
+1. **WebGL 平台限制**
+   - WebGL 不支援多執行緒，所有請求都在主執行緒處理
+   - 建議使用 `await` 非同步等待而不是阻塞呼叫
 
-2. **CORS Issues**
-   - Ensure the server has correct CORS headers configured
-   - For WebGL builds, the server must support OPTIONS preflight requests
+2. **跨域問題 (CORS)**
+   - 確保伺服器設定了正確的 CORS 標頭資訊
+   - 對於 WebGL 建置，伺服器必須支援 OPTIONS 預檢請求
 
-3. **HTTPS Certificate Issues**
-   - Mobile devices may require custom certificate validation
-   - Use a custom certificate validation callback
+3. **HTTPS 憑證問題**
+   - 在行動裝置上可能需要處理憑證驗證
+   - 可以使用自訂憑證驗證回呼
 
-## Documentation & Resources
+## 文檔與資源
 
-- [GameFrameX Main Project](https://github.com/gameframex/com.gameframex.unity)
-- [Official Documentation](https://gameframex.doc.alianblank.com)
-- [Example Project](https://github.com/gameframex/com.gameframex.unity.examples)
-- [Report Issues](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [GameFrameX 主專案](https://github.com/gameframex/com.gameframex.unity)
+- [官方文檔](https://gameframex.doc.alianblank.com)
+- [範例專案](https://github.com/gameframex/com.gameframex.unity.examples)
+- [問題回報](https://github.com/gameframex/com.gameframex.unity.web/issues)
 
-## Community & Support
+## 社區與支援
 
-If you have any questions or need help, reach out through:
+如果您有任何問題或需要協助，可以透過以下方式聯絡我們：
 
-- Email: alianblank@outlook.com
-- [Submit an Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
-- [Read the Docs](https://gameframex.doc.alianblank.com)
+- 電子郵件: alianblank@outlook.com
+- [提交 Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [查看文檔](https://gameframex.doc.alianblank.com)
 
-## Contributing
+## 貢獻
 
-Contributions are welcome! Please feel free to submit Issues and Pull Requests.
+歡迎提交 Issue 和 Pull Request！
 
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
+1. Fork 本專案
+2. 建立功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交變更 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 建立 Pull Request
 
-## Changelog
+## 更新日誌
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+查看 [CHANGELOG.md](CHANGELOG.md) 取得詳細的版本更新資訊。
 
-## License
+## 開源協議
 
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
+本專案採用 MIT 許可證 - 查看 [LICENSE.md](LICENSE.md) 檔案了解詳情。

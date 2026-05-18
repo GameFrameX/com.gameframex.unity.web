@@ -7,42 +7,42 @@
   [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.web)](https://github.com/GameFrameX/com.gameframex.unity.web/releases)
   [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
 
-  All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
+  인디 게임 개발자를 위한 올인원 솔루션 · 인디 개발자의 꿈을 실현
 
-  [Documentation](https://gameframex.doc.alianblank.com) | [Quick Start](#quick-start)
+  [문서](https://gameframex.doc.alianblank.com) | [빠른 시작](#빠른-시작)
 
-  **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+  [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | **한국어**
 </div>
 
 ---
 
-## Project Overview
+## 프로젝트 개요
 
-GameFrameX Web is a high-performance Unity HTTP networking library that provides a clean and easy-to-use API for handling various network request scenarios. It supports GET and POST requests, and can process strings, JSON, binary data, and other formats.
+GameFrameX Web 컴포넌트는 고성능 Unity HTTP 네트워킹 라이브러리로, 다양한 네트워크 요청 시나리오를 처리하기 위한 간결하고 사용하기 쉬운 API를 제공합니다. GET, POST 요청을 지원하며, 문자열, JSON, 바이너리 데이터 등 여러 형식을 처리할 수 있습니다.
 
-## Features
+## 특징
 
-- **High-Performance Async** - Based on C# Task async pattern, supports async/await
-- **Multiple Data Formats** - String, JSON, binary data, Protocol Buffers
-- **Cross-Platform** - Supports WebGL, PC, and mobile platforms
-- **Connection Pool Management** - Smart connection reuse with max concurrent connections control
-- **Secure & Reliable** - Comprehensive error handling and timeout mechanisms
-- **Easy to Extend** - Modular design, supports custom data serialization
+- **고성능 비동기 처리** - C# Task 비동기 패턴 기반, async/await 지원
+- **다중 데이터 형식** - 문자열, JSON, 바이너리 데이터, Protocol Buffers
+- **크로스 플랫폼** - WebGL, PC, 모바일 플랫폼 지원
+- **연결 풀 관리** - 스마트 연결 재사용, 최대 동시 연결 수 제어
+- **안전하고 신뢰성** - 포괄적인 오류 처리 및 타임아웃 메커니즘
+- **쉬운 확장** - 모듈식 설계, 사용자 정의 데이터 직렬화 지원
 
-## Installation
+## 설치
 
-### Via Git URL (Recommended)
+### Git URL을 통한 설치 (권장)
 
-1. Open Package Manager in Unity Editor
-2. Click the "+" button and select "Add package from git URL"
-3. Enter the following URL:
+1. Unity 에디터에서 Package Manager 열기
+2. "+" 버튼을 클릭하고 "Add package from git URL" 선택
+3. 다음 URL 입력:
    ```
    https://github.com/gameframex/com.gameframex.unity.web.git
    ```
 
-### Via manifest.json
+### manifest.json을 통한 설치
 
-Add the following to your project's `Packages/manifest.json`:
+프로젝트의 `Packages/manifest.json`에 다음을 추가:
 
 ```json
 {
@@ -53,15 +53,15 @@ Add the following to your project's `Packages/manifest.json`:
 }
 ```
 
-### Manual Installation
+### 수동 설치
 
-1. Download the latest release package
-2. Extract it to your project's `Packages` directory
-3. Unity will automatically recognize and load the package
+1. 최신 릴리스 패키지 다운로드
+2. 프로젝트의 `Packages` 디렉토리에 압축 해제
+3. Unity가 자동으로 패키지를 인식하고 로드합니다
 
-## Quick Start
+## 빠른 시작
 
-### Basic Usage
+### 기본 사용법
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -74,14 +74,14 @@ public class WebExample : MonoBehaviour
 
     private async void Start()
     {
-        // Get WebManager instance
+        // WebManager 인스턴스 가져오기
         webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-        // Send GET request for string response
+        // GET 요청으로 문자열 가져오기
         string result = await webManager.GetToString("https://api.example.com/data");
         Debug.Log("GET Response: " + result);
 
-        // Send POST request with form data
+        // POST 요청으로 폼 데이터 보내기
         var formData = new Dictionary<string, string>
         {
             { "username", "testuser" },
@@ -94,7 +94,7 @@ public class WebExample : MonoBehaviour
 }
 ```
 
-### Using WebComponent (Recommended)
+### WebComponent 사용 (권장)
 
 ```csharp
 using GameFrameX.Web.Runtime;
@@ -136,9 +136,9 @@ public class MyWebService : MonoBehaviour
 }
 ```
 
-## Usage Examples
+## 사용 예시
 
-### Binary Data Upload
+### 바이너리 데이터 업로드
 
 ```csharp
 public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
@@ -171,7 +171,7 @@ public async Task UploadBinaryDataAsync(byte[] fileData, string fileName)
 }
 ```
 
-### Using Protocol Buffers
+### Protocol Buffers 사용
 
 ```csharp
 [ProtoContract]
@@ -201,7 +201,7 @@ public async Task<UserResponse> GetUserProtoBufAsync(string userId)
 }
 ```
 
-### Error Handling
+### 오류 처리
 
 ```csharp
 public async Task<string> SafeWebRequestAsync(string url)
@@ -212,27 +212,27 @@ public async Task<string> SafeWebRequestAsync(string url)
     }
     catch (WebException ex) when (ex.Status == WebExceptionStatus.Timeout)
     {
-        Debug.LogError("Request timeout: " + ex.Message);
+        Debug.LogError("요청 시간 초과: " + ex.Message);
         return null;
     }
     catch (IOException ex)
     {
-        Debug.LogError("Network IO error: " + ex.Message);
+        Debug.LogError("네트워크 IO 오류: " + ex.Message);
         return null;
     }
     catch (Exception ex)
     {
-        Debug.LogError("Request failed: " + ex.Message);
+        Debug.LogError("요청 실패: " + ex.Message);
         return null;
     }
 }
 ```
 
-## API Reference
+## API 참조
 
-### Core Interface: IWebManager
+### 핵심 인터페이스: IWebManager
 
-#### GET Requests
+#### GET 요청
 
 ```csharp
 Task<string> GetToString(string url);
@@ -244,7 +244,7 @@ Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString);
 Task<byte[]> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header);
 ```
 
-#### POST Requests
+#### POST 요청
 
 ```csharp
 Task<string> PostToString(string url, Dictionary<string, string> formData = null);
@@ -258,103 +258,103 @@ Task<byte[]> PostToBytes(string url, Dictionary<string, string> formData, Dictio
 Task<WebBufferResult> PostToBytes(string url, byte[] binaryData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null);
 ```
 
-#### Advanced Features
+#### 고급 기능
 
 ```csharp
-// Protocol Buffers support
+// Protocol Buffers 지원
 Task<T> GetProtoBuf<T>(string url) where T : class, IExtensible;
 Task<T> PostProtoBuf<T>(string url, IExtensible requestData) where T : class, IExtensible;
 
-// JSON support (via extension methods)
+// JSON 지원 (확장 메서드를 통해)
 Task<T> GetJson<T>(string url);
 Task<T> PostJson<T>(string url, object data);
 ```
 
-### Configuration Options
+### 설정 옵션
 
 ```csharp
-// Request timeout (default: 30 seconds)
+// 요청 타임아웃 (기본값: 30초)
 TimeSpan RequestTimeout { get; set; }
 
-// Max concurrent connections (default: 8)
+// 최대 동시 연결 수 (기본값: 8)
 int MaxConnectionPerServer { get; set; }
 
-// Enable/disable verbose logging
+// 상세 로그 활성화/비활성화
 bool EnableWebLog { get; set; }
 ```
 
-## Platform Support
+## 플랫폼 지원
 
-| Platform | Supported | Notes |
-|----------|-----------|-------|
-| Windows | Yes | Full support |
-| macOS | Yes | Full support |
-| Linux | Yes | Full support |
-| Android | Yes | Full support |
-| iOS | Yes | Full support |
-| WebGL | Yes | Single-threaded, all requests processed on main thread |
+| 플랫폼 | 지원 여부 | 비고 |
+|--------|-----------|------|
+| Windows | 지원 | 완전 지원 |
+| macOS | 지원 | 완전 지원 |
+| Linux | 지원 | 완전 지원 |
+| Android | 지원 | 완전 지원 |
+| iOS | 지원 | 완전 지원 |
+| WebGL | 지원 | 멀티스레드 미지원, 모든 요청은 메인 스레드에서 처리 |
 
-### Configuration
+### 설정
 
 ```csharp
 private void ConfigureWebManager()
 {
     var webManager = GameFrameworkEntry.GetModule<IWebManager>();
 
-    // Set request timeout to 60 seconds
+    // 요청 타임아웃을 60초로 설정
     webManager.RequestTimeout = TimeSpan.FromSeconds(60);
 
-    // Set max concurrent connections to 16
+    // 최대 동시 연결 수를 16으로 설정
     webManager.MaxConnectionPerServer = 16;
 
-    // Enable verbose logging
+    // 상세 로그 활성화
     webManager.EnableWebLog = true;
 }
 ```
 
-### Troubleshooting
+### 문제 해결
 
-1. **WebGL Platform Limitations**
-   - WebGL does not support multi-threading; all requests are processed on the main thread
-   - Use `await` for async operations instead of blocking calls
+1. **WebGL 플랫폼 제한**
+   - WebGL은 멀티스레딩을 지원하지 않습니다. 모든 요청은 메인 스레드에서 처리됩니다
+   - 블로킹 호출 대신 `await`를 사용하는 것을 권장합니다
 
-2. **CORS Issues**
-   - Ensure the server has correct CORS headers configured
-   - For WebGL builds, the server must support OPTIONS preflight requests
+2. **CORS 문제**
+   - 서버에 올바른 CORS 헤더가 설정되어 있는지 확인하세요
+   - WebGL 빌드의 경우 서버가 OPTIONS 사전 요청을 지원해야 합니다
 
-3. **HTTPS Certificate Issues**
-   - Mobile devices may require custom certificate validation
-   - Use a custom certificate validation callback
+3. **HTTPS 인증서 문제**
+   - 모바일 기기에서 인증서 검증 처리가 필요할 수 있습니다
+   - 사용자 정의 인증서 검증 콜백을 사용할 수 있습니다
 
-## Documentation & Resources
+## 문서 및 자료
 
-- [GameFrameX Main Project](https://github.com/gameframex/com.gameframex.unity)
-- [Official Documentation](https://gameframex.doc.alianblank.com)
-- [Example Project](https://github.com/gameframex/com.gameframex.unity.examples)
-- [Report Issues](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [GameFrameX 메인 프로젝트](https://github.com/gameframex/com.gameframex.unity)
+- [공식 문서](https://gameframex.doc.alianblank.com)
+- [예제 프로젝트](https://github.com/gameframex/com.gameframex.unity.examples)
+- [이슈 보고](https://github.com/gameframex/com.gameframex.unity.web/issues)
 
-## Community & Support
+## 커뮤니티 및 지원
 
-If you have any questions or need help, reach out through:
+질문이나 도움이 필요한 경우 다음 방법으로 문의해 주세요:
 
-- Email: alianblank@outlook.com
-- [Submit an Issue](https://github.com/gameframex/com.gameframex.unity.web/issues)
-- [Read the Docs](https://gameframex.doc.alianblank.com)
+- 이메일: alianblank@outlook.com
+- [이슈 등록](https://github.com/gameframex/com.gameframex.unity.web/issues)
+- [문서 참조](https://gameframex.doc.alianblank.com)
 
-## Contributing
+## 기여
 
-Contributions are welcome! Please feel free to submit Issues and Pull Requests.
+Issue 및 Pull Request를 자유롭게 제출해 주세요!
 
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
+1. 이 프로젝트를 포크
+2. 기능 브랜치 생성 (`git checkout -b feature/amazing-feature`)
+3. 변경 사항 커밋 (`git commit -m 'Add some amazing feature'`)
+4. 브랜치에 푸시 (`git push origin feature/amazing-feature`)
+5. Pull Request 생성
 
-## Changelog
+## 변경 로그
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+자세한 버전 업데이트 정보는 [CHANGELOG.md](CHANGELOG.md)를 참조하세요.
 
-## License
+## 라이선스
 
-This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
+이 프로젝트는 MIT 라이선스에 따라 배포됩니다 - 자세한 내용은 [LICENSE.md](LICENSE.md)를 참조하세요.
