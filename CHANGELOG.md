@@ -1,3 +1,11 @@
+## [1.3.4](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.3...1.3.4) (2026-05-28)
+
+
+### Bug Fixes
+
+* **ci:** 统一 .github 工作流配置 ([cd31519](https://github.com/gameframex/com.gameframex.unity.web/commit/cd315198d38e344c50b3f67eb42adaf32c5b20fe))
+* **deps:** 补充 package.json 中缺失的包依赖 ([8968daf](https://github.com/gameframex/com.gameframex.unity.web/commit/8968daffe269e4c9b460e96f3ee9c4c79d11f439))
+
 ## [1.3.3](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.2...1.3.3) (2026-03-13)
 
 
