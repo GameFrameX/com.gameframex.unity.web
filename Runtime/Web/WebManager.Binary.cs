@@ -15,7 +15,7 @@ namespace GameFrameX.Web.Runtime
     /// <summary>
     /// Web请求管理器的ProtoBuf部分实现
     /// </summary>
-    public partial class WebManager : GameFrameworkModule, IWebManager
+    public partial class WebManager
     {
         /// <summary>
         /// 等待处理的Binary请求队列
@@ -63,7 +63,7 @@ namespace GameFrameX.Web.Runtime
             while (m_WaitingBinaryQueue.Count > 0)
             {
                 var webData = m_WaitingBinaryQueue.Dequeue();
-                webData.Dispose();
+                ReferencePool.Release(webData);
             }
 
             m_WaitingBinaryQueue.Clear();
@@ -71,7 +71,7 @@ namespace GameFrameX.Web.Runtime
             {
                 var webData = m_SendingBinaryList[0];
                 m_SendingBinaryList.RemoveAt(0);
-                webData.Dispose();
+                ReferencePool.Release(webData);
             }
 
             m_SendingBinaryList.Clear();
@@ -119,10 +119,12 @@ namespace GameFrameX.Web.Runtime
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
                     webData.Task.TrySetException(new Exception(unityWebRequest.error));
+                    ReferencePool.Release(webData);
                     return;
                 }
 
                 webData.Task.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
+                ReferencePool.Release(webData);
             };
 #else
             try
@@ -189,6 +191,7 @@ namespace GameFrameX.Web.Runtime
             finally
             {
                 m_SendingBinaryList.Remove(webData);
+                ReferencePool.Release(webData);
             }
 
 #endif
@@ -210,7 +213,7 @@ namespace GameFrameX.Web.Runtime
             queryString = MergeQueryString(queryString);
             header = MergeHeader(header);
             url = UrlHandler(url, queryString);
-            var webData = new WebBinaryData(url, header, from, uniTaskCompletionSource, userData);
+            var webData = WebBinaryData.Create(url, header, from, uniTaskCompletionSource, userData);
             m_SendingBinaryList.Add(webData);
             MakeBinaryBytesRequest(webData);
             return uniTaskCompletionSource.Task;
