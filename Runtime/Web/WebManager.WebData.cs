@@ -7,20 +7,20 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// Web请求数据的基类，包含请求的基本信息
         /// </summary>
-        public class WebData : IReference
+        private class WebData : IReference
         {
             /// <summary>
-            /// 获取用户自定义数据
+            /// 用户自定义数据
             /// </summary>
             public object UserData { get; protected set; }
 
             /// <summary>
-            /// 获取是否为GET请求
+            /// 是否为GET请求
             /// </summary>
             public bool IsGet { get; protected set; }
 
             /// <summary>
-            /// 获取请求URL
+            /// 请求URL
             /// </summary>
             public string URL { get; protected set; }
 
