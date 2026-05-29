@@ -113,7 +113,7 @@ namespace GameFrameX.Web.Runtime
             while (m_WaitingNormalQueue.Count > 0)
             {
                 var webData = m_WaitingNormalQueue.Dequeue();
-                webData.Dispose();
+                ReferencePool.Release(webData);
             }
 
             m_WaitingNormalQueue.Clear();
@@ -121,7 +121,7 @@ namespace GameFrameX.Web.Runtime
             {
                 var webData = m_SendingNormalList[0];
                 m_SendingNormalList.RemoveAt(0);
-                webData.Dispose();
+                ReferencePool.Release(webData);
             }
 
             m_SendingNormalList.Clear();
@@ -195,7 +195,7 @@ namespace GameFrameX.Web.Runtime
             header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
-            WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
+            WebJsonData webJsonData = WebJsonData.Create(url, header, true, uniTaskCompletionSource, userData);
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
@@ -248,12 +248,14 @@ namespace GameFrameX.Web.Runtime
                     Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.error}");
 #endif
                     webJsonData.UniTaskCompletionStringSource.TrySetException(new Exception(unityWebRequest.error));
+                    ReferencePool.Release(webJsonData);
                     return;
                 }
 #if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
                 Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.downloadHandler.text}");
 #endif
                 webJsonData.UniTaskCompletionStringSource.SetResult(new WebStringResult(webJsonData.UserData, unityWebRequest.downloadHandler.text));
+                ReferencePool.Release(webJsonData);
             };
 #else
             try
@@ -324,6 +326,7 @@ namespace GameFrameX.Web.Runtime
             finally
             {
                 m_SendingNormalList.Remove(webJsonData);
+                ReferencePool.Release(webJsonData);
             }
 #endif
         }
@@ -376,12 +379,14 @@ namespace GameFrameX.Web.Runtime
                     Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.error}");
 #endif
                     webJsonData.UniTaskCompletionBytesSource.TrySetException(new Exception(unityWebRequest.error));
+                    ReferencePool.Release(webJsonData);
                     return;
                 }
 #if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
                 Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {unityWebRequest.downloadHandler.data}");
 #endif
                 webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, unityWebRequest.downloadHandler.data));
+                ReferencePool.Release(webJsonData);
             };
 #else
             try
@@ -456,6 +461,7 @@ namespace GameFrameX.Web.Runtime
             finally
             {
                 m_SendingNormalList.Remove(webJsonData);
+                ReferencePool.Release(webJsonData);
             }
 #endif
         }
@@ -476,7 +482,7 @@ namespace GameFrameX.Web.Runtime
             header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
-            WebJsonData webJsonData = new WebJsonData(url, header, true, uniTaskCompletionSource, userData);
+            WebJsonData webJsonData = WebJsonData.Create(url, header, true, uniTaskCompletionSource, userData);
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
@@ -553,7 +559,7 @@ namespace GameFrameX.Web.Runtime
             header = MergeHeader(header);
             url = UrlHandler(url, queryString);
 
-            WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
+            WebJsonData webJsonData = WebJsonData.Create(url, header, from, uniTaskCompletionSource, userData);
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
@@ -575,7 +581,7 @@ namespace GameFrameX.Web.Runtime
             queryString = MergeQueryString(queryString);
             header = MergeHeader(header);
             url = UrlHandler(url, queryString);
-            WebJsonData webJsonData = new WebJsonData(url, header, from, uniTaskCompletionSource, userData);
+            WebJsonData webJsonData = WebJsonData.Create(url, header, from, uniTaskCompletionSource, userData);
             m_WaitingNormalQueue.Enqueue(webJsonData);
             return uniTaskCompletionSource.Task;
         }
