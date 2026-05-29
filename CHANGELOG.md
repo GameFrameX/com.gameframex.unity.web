@@ -1,3 +1,20 @@
+## [1.3.5](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.4...1.3.5) (2026-05-29)
+
+
+### Bug Fixes
+
+* **web:** 修复并发请求时 MemoryStream 数据覆盖问题 ([84a3356](https://github.com/gameframex/com.gameframex.unity.web/commit/84a33565b707ff0daca6c57d3a370402fcd31e93))
+
+
+### Performance Improvements
+
+* **web:** 字典初始化使用源字典容量避免扩容 ([e38487e](https://github.com/gameframex/com.gameframex.unity.web/commit/e38487e77001ebfb2292cca96416f8882c014ca2))
+
+
+### Reverts
+
+* **web:** 恢复 WebData 为 public ([d5107b1](https://github.com/gameframex/com.gameframex.unity.web/commit/d5107b12fb28a30151420280107acf507a7123e0))
+
 ## [1.3.4](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.3...1.3.4) (2026-05-28)
 
 
