@@ -133,7 +133,7 @@ namespace GameFrameX.Web.Runtime
 
                 if (data.m_Header == null)
                 {
-                    data.m_Header = new Dictionary<string, string>();
+                    data.m_Header = new Dictionary<string, string>(header.Count);
                 }
                 else
                 {
@@ -155,7 +155,7 @@ namespace GameFrameX.Web.Runtime
 
                 if (data.m_Form == null)
                 {
-                    data.m_Form = new Dictionary<string, object>();
+                    data.m_Form = new Dictionary<string, object>(form.Count);
                 }
                 else
                 {
