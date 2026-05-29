@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GameFrameX.Network.Runtime;
 using GameFrameX.Runtime;
-using ProtoBuf;
 #if UNITY_WEBGL
 using UnityEngine.Networking;
 #endif
