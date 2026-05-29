@@ -7,7 +7,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// Web请求数据的基类，包含请求的基本信息
         /// </summary>
-        private class WebData : IReference
+        public class WebData : IReference
         {
             /// <summary>
             /// 用户自定义数据
