@@ -1,4 +1,4 @@
-﻿using System;
+using GameFrameX.Runtime;
 
 namespace GameFrameX.Web.Runtime
 {
@@ -7,41 +7,31 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// Web请求数据的基类，包含请求的基本信息
         /// </summary>
-        public class WebData : IDisposable
+        public class WebData : IReference
         {
             /// <summary>
             /// 获取用户自定义数据
             /// </summary>
-            public object UserData { get; }
+            public object UserData { get; protected set; }
 
             /// <summary>
             /// 获取是否为GET请求
             /// </summary>
-            public bool IsGet { get; }
+            public bool IsGet { get; protected set; }
 
             /// <summary>
             /// 获取请求URL
             /// </summary>
-            public string URL { get; }
+            public string URL { get; protected set; }
 
             /// <summary>
-            /// 初始化Web请求数据
+            /// 重置引用状态，将所有字段恢复为默认值
             /// </summary>
-            /// <param name="isGet">是否为GET请求</param>
-            /// <param name="url">请求URL</param>
-            /// <param name="userData">用户自定义数据</param>
-            protected WebData(bool isGet, string url, object userData = null)
+            public virtual void Clear()
             {
-                UserData = userData;
-                IsGet = isGet;
-                URL = url;
-            }
-
-            /// <summary>
-            /// 释放资源
-            /// </summary>
-            public virtual void Dispose()
-            {
+                UserData = default;
+                IsGet = default;
+                URL = default;
             }
         }
     }
