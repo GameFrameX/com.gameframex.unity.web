@@ -118,12 +118,12 @@ namespace GameFrameX.Web.Runtime
                 m_SendingBinaryList.Remove(webData);
                 if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError || unityWebRequest.error != null)
                 {
-                    webData.Task.TrySetException(new Exception(unityWebRequest.error));
+                    webData.TaskSource.TrySetException(new Exception(unityWebRequest.error));
                     ReferencePool.Release(webData);
                     return;
                 }
 
-                webData.Task.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
+                webData.TaskSource.SetResult(new WebBufferResult(webData.UserData, unityWebRequest.downloadHandler.data));
                 ReferencePool.Release(webData);
             };
 #else
@@ -165,7 +165,7 @@ namespace GameFrameX.Web.Runtime
                         m_MemoryStream.Position = 0;
                         await responseStream.CopyToAsync(m_MemoryStream);
                         var resultData = m_MemoryStream.ToArray();
-                        webData.Task.SetResult(new WebBufferResult(webData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
+                        webData.TaskSource.SetResult(new WebBufferResult(webData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
                     }
                 }
             }
@@ -174,19 +174,19 @@ namespace GameFrameX.Web.Runtime
                 // 捕获超时异常
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    webData.Task.SetException(new TimeoutException(e.Message));
+                    webData.TaskSource.SetException(new TimeoutException(e.Message));
                     return;
                 }
 
-                webData.Task.SetException(e);
+                webData.TaskSource.SetException(e);
             }
             catch (IOException e)
             {
-                webData.Task.SetException(e);
+                webData.TaskSource.SetException(e);
             }
             catch (Exception e)
             {
-                webData.Task.SetException(e);
+                webData.TaskSource.SetException(e);
             }
             finally
             {

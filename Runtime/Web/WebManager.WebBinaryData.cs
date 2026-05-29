@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameFrameX.Runtime;
@@ -16,7 +17,7 @@ namespace GameFrameX.Web.Runtime
             /// <summary>
             /// 获取请求任务的完成源，用于异步操作的控制和结果返回
             /// </summary>
-            public TaskCompletionSource<WebBufferResult> Task { get; private set; }
+            public TaskCompletionSource<WebBufferResult> TaskSource { get; private set; }
 
             /// <summary>
             /// 获取要发送的字节数组数据
@@ -38,39 +39,29 @@ namespace GameFrameX.Web.Runtime
             /// </summary>
             public static WebBinaryData Create(string url, Dictionary<string, string> header, byte[] sendData, TaskCompletionSource<WebBufferResult> task, object userData)
             {
+                if (task == null)
+                {
+                    throw new ArgumentNullException(nameof(task));
+                }
+
                 var data = ReferencePool.Acquire<WebBinaryData>();
                 data.URL = url;
                 data.IsGet = false;
                 data.UserData = userData;
-                data.Task = task;
+                data.TaskSource = task;
                 data.SendData = sendData;
 
-                if (header != null && header.Count > 0)
-                {
-                    if (data.m_Header == null)
-                    {
-                        data.m_Header = new Dictionary<string, string>(header.Count);
-                    }
-                    else
-                    {
-                        data.m_Header.Clear();
-                    }
-
-                    foreach (var kv in header)
-                    {
-                        data.m_Header[kv.Key] = kv.Value;
-                    }
-                }
+                CopyHeader(data, header);
 
                 return data;
             }
 
             public override void Clear()
             {
-                if (Task != null)
+                if (TaskSource != null)
                 {
-                    Task.TrySetCanceled();
-                    Task = null;
+                    TaskSource.TrySetCanceled();
+                    TaskSource = null;
                 }
 
                 SendData = null;
@@ -81,6 +72,28 @@ namespace GameFrameX.Web.Runtime
                 }
 
                 base.Clear();
+            }
+
+            private static void CopyHeader(WebBinaryData data, Dictionary<string, string> header)
+            {
+                if (header == null || header.Count == 0)
+                {
+                    return;
+                }
+
+                if (data.m_Header == null)
+                {
+                    data.m_Header = new Dictionary<string, string>(header.Count);
+                }
+                else
+                {
+                    data.m_Header.Clear();
+                }
+
+                foreach (var kv in header)
+                {
+                    data.m_Header[kv.Key] = kv.Value;
+                }
             }
         }
     }
