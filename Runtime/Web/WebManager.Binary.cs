@@ -75,8 +75,6 @@ namespace GameFrameX.Web.Runtime
             }
 
             m_SendingBinaryList.Clear();
-
-            m_MemoryStream.Dispose();
         }
 
         /// <summary>
@@ -152,20 +150,12 @@ namespace GameFrameX.Web.Runtime
                 {
                     using (Stream responseStream = response.GetResponseStream())
                     {
-                        var transferEncoding = response.Headers.Get("Transfer-Encoding");
-                        if (string.IsNullOrWhiteSpace(transferEncoding))
+                        using (var ms = new MemoryStream())
                         {
-                            m_MemoryStream.SetLength(response.ContentLength);
+                            await responseStream.CopyToAsync(ms);
+                            var resultData = ms.ToArray();
+                            webData.TaskSource.SetResult(new WebBufferResult(webData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组
                         }
-                        else
-                        {
-                            m_MemoryStream.SetLength(0);
-                        }
-
-                        m_MemoryStream.Position = 0;
-                        await responseStream.CopyToAsync(m_MemoryStream);
-                        var resultData = m_MemoryStream.ToArray();
-                        webData.TaskSource.SetResult(new WebBufferResult(webData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
                     }
                 }
             }

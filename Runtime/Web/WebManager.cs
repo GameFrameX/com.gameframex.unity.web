@@ -27,9 +27,6 @@ namespace GameFrameX.Web.Runtime
         // 正在处理的普通请求列表
         private readonly List<WebJsonData> m_SendingNormalList = new List<WebJsonData>(16);
 
-        // 用于存储请求和响应数据的内存流
-        private readonly MemoryStream m_MemoryStream;
-
         // JSON内容类型常量
         private const string JsonContentType = "application/json; charset=utf-8";
 
@@ -47,7 +44,6 @@ namespace GameFrameX.Web.Runtime
         public WebManager()
         {
             MaxConnectionPerServer = 8;
-            m_MemoryStream = new MemoryStream();
             Timeout = 5f;
         }
 
@@ -126,7 +122,6 @@ namespace GameFrameX.Web.Runtime
 
             m_SendingNormalList.Clear();
             ShutdownBinary();
-            m_MemoryStream.Dispose();
         }
 
         /// <summary>
@@ -419,14 +414,15 @@ namespace GameFrameX.Web.Runtime
                 {
                     using (Stream responseStream = response.GetResponseStream())
                     {
-                        m_MemoryStream.SetLength(responseStream.Length);
-                        m_MemoryStream.Position = 0;
-                        await responseStream.CopyToAsync(m_MemoryStream);
-                        var resultData = m_MemoryStream.ToArray();
+                        using (var ms = new MemoryStream())
+                        {
+                            await responseStream.CopyToAsync(ms);
+                            var resultData = ms.ToArray();
 #if ENABLE_GAMEFRAMEX_WEB_RECEIVE_LOG
                         Log.Debug($"Web Response: {webJsonData.URL} \n Header: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Header)} \n  Form: {GameFrameX.Runtime.Utility.Json.ToJson(webJsonData.Form)} \n Content: {resultData}");
 #endif
-                        webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组 
+                        webJsonData.UniTaskCompletionBytesSource.SetResult(new WebBufferResult(webJsonData.UserData, resultData)); // 将流的内容复制到内存流中并转换为byte数组
+                        }
                     }
                 }
             }
