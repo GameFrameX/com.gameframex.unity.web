@@ -34,36 +34,6 @@ GameFrameX Web 컴포넌트는 고성능 Unity HTTP 네트워킹 라이브러리
 - **안전하고 신뢰성** - 포괄적인 오류 처리 및 타임아웃 메커니즘
 - **쉬운 확장** - 모듈식 설계, 사용자 정의 데이터 직렬화 지원
 
-## 설치
-
-### Git URL을 통한 설치 (권장)
-
-1. Unity 에디터에서 Package Manager 열기
-2. "+" 버튼을 클릭하고 "Add package from git URL" 선택
-3. 다음 URL 입력:
-   ```
-   https://github.com/gameframex/com.gameframex.unity.web.git
-   ```
-
-### manifest.json을 통한 설치
-
-프로젝트의 `Packages/manifest.json`에 다음을 추가:
-
-```json
-{
-  "dependencies": {
-    "com.gameframex.unity.web": "https://github.com/gameframex/com.gameframex.unity.web.git",
-    "com.gameframex.unity": "https://github.com/gameframex/com.gameframex.unity.git"
-  }
-}
-```
-
-### 수동 설치
-
-1. 최신 릴리스 패키지 다운로드
-2. 프로젝트의 `Packages` 디렉토리에 압축 해제
-3. Unity가 자동으로 패키지를 인식하고 로드합니다
-
 ## 빠른 시작
 
 ### 설치
@@ -315,6 +285,13 @@ Issue 및 Pull Request를 자유롭게 제출해 주세요!
 
 자세한 버전 업데이트 정보는 [CHANGELOG.md](CHANGELOG.md)를 참조하세요.
 
+
+## 의존성
+
+| 패키지 | 설명 |
+|--------|------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.network` | 2.5.1 |
 ## 라이선스
 
 자세한 내용은 [LICENSE.md](LICENSE.md) 파일을 참조하세요.

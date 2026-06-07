@@ -34,36 +34,6 @@ GameFrameX Web コンポーネントは、高性能な Unity HTTP ネットワ�
 - **安全で信頼性** - 包括的なエラー処理とタイムアウトメカニズム
 - **拡張が容易** - モジュラー設計、カスタムデータシリアライズ対応
 
-## インストール
-
-### Git URL 経由（推奨）
-
-1. Unity エディタで Package Manager を開く
-2. "+" ボタンをクリックし "Add package from git URL" を選択
-3. 以下の URL を入力：
-   ```
-   https://github.com/gameframex/com.gameframex.unity.web.git
-   ```
-
-### manifest.json 経由
-
-プロジェクトの `Packages/manifest.json` に以下を追加：
-
-```json
-{
-  "dependencies": {
-    "com.gameframex.unity.web": "https://github.com/gameframex/com.gameframex.unity.web.git",
-    "com.gameframex.unity": "https://github.com/gameframex/com.gameframex.unity.git"
-  }
-}
-```
-
-### 手動インストール
-
-1. 最新のリリースパッケージをダウンロード
-2. プロジェクトの `Packages` ディレクトリに展開
-3. Unity が自動的にパッケージを認識して読み込みます
-
 ## クイックスタート
 
 ### インストール
@@ -315,6 +285,13 @@ Issue や Pull Request をお気軽に提出ください！
 
 詳細なバージョン更新情報は [CHANGELOG.md](CHANGELOG.md) をご覧ください。
 
+
+## 依存関係
+
+| パッケージ | 説明 |
+|----------|------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.network` | 2.5.1 |
 ## ライセンス
 
 詳しくは [LICENSE.md](LICENSE.md) をご参照ください。

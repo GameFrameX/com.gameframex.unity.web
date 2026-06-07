@@ -34,36 +34,6 @@ GameFrameX Web 元件是一個高效能的 Unity HTTP 網路請求庫，提供�
 - **安全可靠** - 完善的錯誤處理和超時機制
 - **易於擴展** - 模組化設計，支援自定義資料序列化
 
-## 安裝
-
-### 透過 Git URL 安裝（推薦）
-
-1. 在 Unity 編輯器中打開 Package Manager
-2. 點擊 "+" 按鈕選擇 "Add package from git URL"
-3. 輸入以下 URL：
-   ```
-   https://github.com/gameframex/com.gameframex.unity.web.git
-   ```
-
-### 透過 manifest.json 安裝
-
-在專案的 `Packages/manifest.json` 檔案中新增：
-
-```json
-{
-  "dependencies": {
-    "com.gameframex.unity.web": "https://github.com/gameframex/com.gameframex.unity.web.git",
-    "com.gameframex.unity": "https://github.com/gameframex/com.gameframex.unity.git"
-  }
-}
-```
-
-### 手動安裝
-
-1. 下載最新版本發布包
-2. 解壓縮到專案的 `Packages` 目錄下
-3. Unity 會自動識別並載入包
-
 ## 快速開始
 
 ### 安裝
@@ -316,6 +286,13 @@ private void ConfigureWebManager()
 
 查看 [CHANGELOG.md](CHANGELOG.md) 取得詳細的版本更新資訊。
 
+
+## 依賴
+
+| 套件 | 說明 |
+|------|------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.network` | 2.5.1 |
 ## 開源協議
 
 本專案採用 MIT 許可證 - 查看 [LICENSE.md](LICENSE.md) 檔案了解詳情。

@@ -34,36 +34,6 @@ GameFrameX Web is a high-performance Unity HTTP networking library that provides
 - **Secure & Reliable** - Comprehensive error handling and timeout mechanisms
 - **Easy to Extend** - Modular design, supports custom data serialization
 
-## Installation
-
-### Via Git URL (Recommended)
-
-1. Open Package Manager in Unity Editor
-2. Click the "+" button and select "Add package from git URL"
-3. Enter the following URL:
-   ```
-   https://github.com/gameframex/com.gameframex.unity.web.git
-   ```
-
-### Via manifest.json
-
-Add the following to your project's `Packages/manifest.json`:
-
-```json
-{
-  "dependencies": {
-    "com.gameframex.unity.web": "https://github.com/gameframex/com.gameframex.unity.web.git",
-    "com.gameframex.unity": "https://github.com/gameframex/com.gameframex.unity.git"
-  }
-}
-```
-
-### Manual Installation
-
-1. Download the latest release package
-2. Extract it to your project's `Packages` directory
-3. Unity will automatically recognize and load the package
-
 ## Quick Start
 
 ### Installation
@@ -315,6 +285,13 @@ Contributions are welcome! Please feel free to submit Issues and Pull Requests.
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
+
+## Dependencies
+
+| Package | Description |
+|---------|-------------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.network` | 2.5.1 |
 ## License
 
 See [LICENSE.md](LICENSE.md) for license information.
