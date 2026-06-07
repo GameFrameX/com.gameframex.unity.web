@@ -3,7 +3,7 @@
   "displayName": "Game Frame X Web",
   "category": "GameFrameX",
   "description": "GameFrameX Web — Unity HTTP request management package. Provides async GET and POST operations with string or byte array responses, support for query strings, custom headers, form data, and raw byte payloads, plus base/global request configuration (auto-appended headers, query params, form data) and configurable timeout. Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX Web — Unity HTTP 请求管理功能包。提供异步 GET 和 POST 操作，支持字符串或字节数组响应，支持查询字符串、自定义请求头、表单数据和原始字节负载，以及基础/全局请求配置（自动追加请求头、查询参数、表单数据）和可配置超时。文档：https://gameframex.doc.alianblank.com",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "unity": "2019.4",
   "keywords": [
     "GameFrameX",

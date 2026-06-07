@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.5...1.3.6) (2026-06-07)
+
+
+### Bug Fixes
+
+* 补全包规范文件（LICENSE/CHANGELOG/URL 字段/unity 字段） ([c183226](https://github.com/gameframex/com.gameframex.unity.web/commit/c1832262c27473d33d7e9895b5840e5f52a99cb0))
+
 ## [1.3.5](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.4...1.3.5) (2026-05-29)
 
 
