@@ -96,7 +96,6 @@ Then add the package to `dependencies`:
 }
 ```
 
-
 ## 使用示例
 
 ### 处理二进制数据上传
@@ -318,4 +317,4 @@ private void ConfigureWebManager()
 
 ## 开源协议
 
-本项目采用 MIT 许可证 - 查看 [LICENSE.md](LICENSE.md) 文件了解详情。
+详见 [LICENSE.md](LICENSE.md) 文件。

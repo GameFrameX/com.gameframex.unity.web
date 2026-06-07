@@ -96,7 +96,6 @@ Then add the package to `dependencies`:
 }
 ```
 
-
 ## 사용 예시
 
 ### 바이너리 데이터 업로드
@@ -318,4 +317,4 @@ Issue 및 Pull Request를 자유롭게 제출해 주세요!
 
 ## 라이선스
 
-이 프로젝트는 MIT 라이선스에 따라 배포됩니다 - 자세한 내용은 [LICENSE.md](LICENSE.md)를 참조하세요.
+자세한 내용은 [LICENSE.md](LICENSE.md) 파일을 참조하세요.
