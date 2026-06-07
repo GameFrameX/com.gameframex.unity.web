@@ -66,80 +66,36 @@ GameFrameX Web 컴포넌트는 고성능 Unity HTTP 네트워킹 라이브러리
 
 ## 빠른 시작
 
-### 기본 사용법
+### 설치
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+Unity 프로젝트의 `Packages/manifest.json`을 편집하여 `scopedRegistries` 섹션을 추가하세요:
 
-public class WebExample : MonoBehaviour
+```json
 {
-    private IWebManager webManager;
-
-    private async void Start()
+  "scopedRegistries": [
     {
-        // WebManager 인스턴스 가져오기
-        webManager = GameFrameworkEntry.GetModule<IWebManager>();
-
-        // GET 요청으로 문자열 가져오기
-        string result = await webManager.GetToString("https://api.example.com/data");
-        Debug.Log("GET Response: " + result);
-
-        // POST 요청으로 폼 데이터 보내기
-        var formData = new Dictionary<string, string>
-        {
-            { "username", "testuser" },
-            { "password", "testpass" }
-        };
-
-        string postResult = await webManager.PostToString("https://api.example.com/login", formData);
-        Debug.Log("POST Response: " + postResult);
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
     }
+  ]
 }
 ```
 
-### WebComponent 사용 (권장)
+`scopes`는 이 레지스트리를 통해 어떤 패키지를 해석할지 제어합니다. `com.gameframex`로 시작하는 패키지만 이 레지스트리에서 가져옵니다.
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+Then add the package to `dependencies`:
 
-public class MyWebService : MonoBehaviour
+```json
 {
-    private WebComponent webComponent;
-
-    private void Awake()
-    {
-        webComponent = gameObject.GetOrAddComponent<WebComponent>();
-    }
-
-    public async Task<string> GetUserDataAsync(string userId)
-    {
-        var queryParams = new Dictionary<string, string>
-        {
-            { "userId", userId }
-        };
-
-        var headers = new Dictionary<string, string>
-        {
-            { "Authorization", "Bearer your-token-here" }
-        };
-
-        return await webComponent.GetToString(
-            "https://api.example.com/users",
-            queryParams,
-            headers
-        );
-    }
-
-    public async Task<byte[]> DownloadFileAsync(string fileUrl)
-    {
-        return await webComponent.GetToBytes(fileUrl);
-    }
+  "dependencies": {
+    "com.gameframex.unity.web": "1.3.5"
+  }
 }
 ```
+
 
 ## 사용 예시
 

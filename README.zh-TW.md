@@ -66,80 +66,36 @@ GameFrameX Web 元件是一個高效能的 Unity HTTP 網路請求庫，提供�
 
 ## 快速開始
 
-### 基本用法
+### 安裝
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+編輯 Unity 專案的 `Packages/manifest.json`，添加 `scopedRegistries` 部分：
 
-public class WebExample : MonoBehaviour
+```json
 {
-    private IWebManager webManager;
-
-    private async void Start()
+  "scopedRegistries": [
     {
-        // 取得 Web 管理器實例
-        webManager = GameFrameworkEntry.GetModule<IWebManager>();
-
-        // 發送 GET 請求取得字串
-        string result = await webManager.GetToString("https://api.example.com/data");
-        Debug.Log("GET Response: " + result);
-
-        // 發送 POST 請求帶表單資料
-        var formData = new Dictionary<string, string>
-        {
-            { "username", "testuser" },
-            { "password", "testpass" }
-        };
-
-        string postResult = await webManager.PostToString("https://api.example.com/login", formData);
-        Debug.Log("POST Response: " + postResult);
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
     }
+  ]
 }
 ```
 
-### 使用 WebComponent（推薦）
+`scopes` 控制哪些套件透過此註冊表解析。只有以 `com.gameframex` 開頭的套件才會從這個註冊表取得。
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+Then add the package to `dependencies`:
 
-public class MyWebService : MonoBehaviour
+```json
 {
-    private WebComponent webComponent;
-
-    private void Awake()
-    {
-        webComponent = gameObject.GetOrAddComponent<WebComponent>();
-    }
-
-    public async Task<string> GetUserDataAsync(string userId)
-    {
-        var queryParams = new Dictionary<string, string>
-        {
-            { "userId", userId }
-        };
-
-        var headers = new Dictionary<string, string>
-        {
-            { "Authorization", "Bearer your-token-here" }
-        };
-
-        return await webComponent.GetToString(
-            "https://api.example.com/users",
-            queryParams,
-            headers
-        );
-    }
-
-    public async Task<byte[]> DownloadFileAsync(string fileUrl)
-    {
-        return await webComponent.GetToBytes(fileUrl);
-    }
+  "dependencies": {
+    "com.gameframex.unity.web": "1.3.5"
+  }
 }
 ```
+
 
 ## 使用範例
 

@@ -66,80 +66,36 @@ Add the following to your project's `Packages/manifest.json`:
 
 ## Quick Start
 
-### Basic Usage
+### Installation
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+Edit your Unity project's `Packages/manifest.json` and add the `scopedRegistries` section:
 
-public class WebExample : MonoBehaviour
+```json
 {
-    private IWebManager webManager;
-
-    private async void Start()
+  "scopedRegistries": [
     {
-        // Get WebManager instance
-        webManager = GameFrameworkEntry.GetModule<IWebManager>();
-
-        // Send GET request for string response
-        string result = await webManager.GetToString("https://api.example.com/data");
-        Debug.Log("GET Response: " + result);
-
-        // Send POST request with form data
-        var formData = new Dictionary<string, string>
-        {
-            { "username", "testuser" },
-            { "password", "testpass" }
-        };
-
-        string postResult = await webManager.PostToString("https://api.example.com/login", formData);
-        Debug.Log("POST Response: " + postResult);
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
     }
+  ]
 }
 ```
 
-### Using WebComponent (Recommended)
+`scopes` controls which packages are resolved through this registry. Only packages whose names start with `com.gameframex` will be fetched from it.
 
-```csharp
-using GameFrameX.Web.Runtime;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+Then add the package to `dependencies`:
 
-public class MyWebService : MonoBehaviour
+```json
 {
-    private WebComponent webComponent;
-
-    private void Awake()
-    {
-        webComponent = gameObject.GetOrAddComponent<WebComponent>();
-    }
-
-    public async Task<string> GetUserDataAsync(string userId)
-    {
-        var queryParams = new Dictionary<string, string>
-        {
-            { "userId", userId }
-        };
-
-        var headers = new Dictionary<string, string>
-        {
-            { "Authorization", "Bearer your-token-here" }
-        };
-
-        return await webComponent.GetToString(
-            "https://api.example.com/users",
-            queryParams,
-            headers
-        );
-    }
-
-    public async Task<byte[]> DownloadFileAsync(string fileUrl)
-    {
-        return await webComponent.GetToBytes(fileUrl);
-    }
+  "dependencies": {
+    "com.gameframex.unity.web": "1.3.5"
+  }
 }
 ```
+
 
 ## Usage Examples
 
