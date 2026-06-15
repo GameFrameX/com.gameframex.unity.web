@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using GameFrameX.Network.Runtime;
 using GameFrameX.Runtime;
 #if UNITY_WEBGL
 using UnityEngine.Networking;
