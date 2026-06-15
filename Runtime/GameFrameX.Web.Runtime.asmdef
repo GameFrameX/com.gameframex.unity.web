@@ -3,7 +3,7 @@
   "rootNamespace": "GameFrameX.Web.Runtime",
   "references": [
     "GameFrameX.Runtime",
-    "GameFrameX.Network.Runtime"
+    "GameFrameX.LitJSON.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

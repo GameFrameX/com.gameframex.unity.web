@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using GameFrameX.LitJSON.Runtime;
 
 namespace GameFrameX.Web.Runtime
 {
@@ -11,24 +11,24 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 响应码0 为成功
         /// </summary>
-        [JsonProperty(PropertyName = "code")]
+        [JsonProperty("code")]
         public int Code { get; set; }
 
         /// <summary>
         /// 响应消息
         /// </summary>
-        [JsonProperty(PropertyName = "message")]
+        [JsonProperty("message")]
         public string Message { get; set; }
 
         /// <summary>
         /// 响应数据.
         /// </summary>
-        [JsonProperty(PropertyName = "data")]
+        [JsonProperty("data")]
         public string Data { get; set; }
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonMapper.ToJson(this);
         }
     }
 }

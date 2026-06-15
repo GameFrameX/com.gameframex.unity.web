@@ -1,6 +1,6 @@
 using System;
 using GameFrameX.Runtime;
-using Newtonsoft.Json;
+using GameFrameX.LitJSON.Runtime;
 
 namespace GameFrameX.Web.Runtime
 {
@@ -26,7 +26,7 @@ namespace GameFrameX.Web.Runtime
             try
             {
                 // 反序列化JSON字符串为HttpJsonResult对象
-                var httpJsonResult = JsonConvert.DeserializeObject<HttpJsonResult>(jsonResult);
+                var httpJsonResult = JsonMapper.ToObject<HttpJsonResult>(jsonResult);
                 // 检查响应码是否表示成功
                 if (httpJsonResult.Code != 0)
                 {
@@ -36,7 +36,7 @@ namespace GameFrameX.Web.Runtime
 
                 resultData.IsSuccess = true; // 设置成功标志
                 // 反序列化数据部分，如果数据为空则返回类型T的默认实例
-                resultData.Data = string.IsNullOrEmpty(httpJsonResult.Data) ? new T() : JsonConvert.DeserializeObject<T>(httpJsonResult.Data);
+                resultData.Data = string.IsNullOrEmpty(httpJsonResult.Data) ? new T() : JsonMapper.ToObject<T>(httpJsonResult.Data);
             }
             catch (Exception e)
             {
