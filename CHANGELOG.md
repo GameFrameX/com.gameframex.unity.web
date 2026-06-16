@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.6...1.4.0) (2026-06-16)
+
+
+### Features
+
+* **json:** 切换 JSON 序列化库为 GameFrameX.LitJSON ([872da8e](https://github.com/gameframex/com.gameframex.unity.web/commit/872da8e4dd7bd3cf61926b83c98e8c78c30f2707))
+
 ## [1.3.6](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.5...1.3.6) (2026-06-07)
 
 
