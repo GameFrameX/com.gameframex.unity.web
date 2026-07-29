@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/gameframex/com.gameframex.unity.web/compare/1.4.0...1.4.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* **dependencies:** 更新依赖版本以支持新功能和修复已知问题 ([509ac07](https://github.com/gameframex/com.gameframex.unity.web/commit/509ac07b30f06988fa9a647d5f5fafd3f626839d))
+
 # [1.4.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.3.6...1.4.0) (2026-06-16)
 
 
