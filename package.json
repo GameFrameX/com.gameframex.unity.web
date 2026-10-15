@@ -3,7 +3,7 @@
     "displayName": "Game Frame X Web",
     "category": "GameFrameX",
     "description": "GameFrameX Web — Unity HTTP request package with Task-based APIs. GET / POST to string or bytes with query strings, headers and form bodies, raw byte[] payloads, shared base forms / headers / query strings across requests, a configurable timeout, JSON result parsing helpers (HttpJsonResultData<T>) and a certificate-bypass option. WebComponent stays a thin forwarding entry with the module reachable via GetModule<T>(); configuration moves to code-level WebOptions (GameFrameXOptions.Configure). Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX Web — Unity HTTP 请求功能包，提供基于 Task 的 API。GET / POST 到字符串或字节，支持查询串、请求头与表单体、原始 byte[] 负载、跨请求共享的基础表单/请求头/查询串、可配置超时、JSON 结果解析辅助（HttpJsonResultData<T>）与证书绕过选项。WebComponent 为纯转发薄入口，模块可经 GetModule<T>() 直达；配置收敛为代码级 WebOptions（GameFrameXOptions.Configure）。文档：https://gameframex.doc.alianblank.com",
-    "version": "2.0.1",
+    "version": "2.0.0",
     "unity": "2019.4",
     "keywords": [
         "GameFrameX",
