@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/gameframex/com.gameframex.unity.web/compare/2.0.0...2.0.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **extensions:** 处理服务器错误响应解析 ([593b6a0](https://github.com/gameframex/com.gameframex.unity.web/commit/593b6a026cb6c06061360741ff86afe9b9e1009f))
+
 # [2.0.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.4.1...2.0.0) (2026-10-15)
 
 
