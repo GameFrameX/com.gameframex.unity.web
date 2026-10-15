@@ -1,3 +1,10 @@
+# [2.0.1](https://github.com/gameframex/com.gameframex.unity.web/compare/2.0.0...2.0.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **extensions:** `ToHttpJsonResultData<T>` 处理服务器/网关错误响应：缺少约定 `code` 字段的错误体（如 ASP.NET Core ProblemDetails `status`、旧版 `statusCode`、Spring Boot `status`+`error`）不再被误判为成功；空响应、非 JSON 错误页统一返回 `Code=500`；`HttpJsonResultData<T>` 新增 `Message` 携带服务端错误消息 ([593b6a0](https://github.com/gameframex/com.gameframex.unity.web/commit/593b6a026cb6c06061360741ff86afe9b9e1009f))
+
 # [2.0.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.4.1...2.0.0) (2026-10-15)
 
 
@@ -7,15 +14,6 @@
 ### BREAKING CHANGES
 
 * WebComponent 序列化字段移除，编辑期配置入口收敛到代码 WebOptions。
-
-## [Unreleased]
-
-### Bug Fixes
-
-* **extensions:** `ToHttpJsonResultData<T>` 处理服务器/网关错误响应：缺少约定 `code` 字段的错误体（如 ASP.NET Core ProblemDetails `status`、旧版 `statusCode`、Spring Boot `status`+`error`）不再被误判为成功；空响应、非 JSON 错误页统一返回 `Code=500`；`HttpJsonResultData<T>` 新增 `Message` 携带服务端错误消息
-
-### ⚠ BREAKING CHANGES
-
 * **module:** 新增 `WebOptions` 启动配置（`GameFrameXOptions.Configure`，首场景加载前注入；字段默认值同原 Inspector 序列化默认）：`Timeout`（默认 5 秒）
 * **module:** 组件值参数序列化字段移除（`m_Timeout`），`WebComponent` 保留为薄入口（纯转发），模块经 `GetModule<T>()` 直达；编辑期配置入口收敛到代码 Options
 
