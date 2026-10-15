@@ -21,11 +21,13 @@
         /// <summary>
         /// 获取请求返回的字符串结果
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public string Result { get; }
 
         /// <summary>
         /// 获取用户自定义数据，在请求时传入的数据会原样返回
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public object UserData { get; }
 
         /// <summary>

@@ -1,7 +1,9 @@
 {
     "name": "GameFrameX.Web.Tests",
     "references": [
-        "GameFrameX.Runtime.Web"
+        "GameFrameX.Runtime.Web",
+        "GameFrameX.Runtime",
+        "GameFrameX.Web.Runtime"
     ],
     "rootNamespace": "GameFrameX.Web.Tests",
     "includePlatforms": [

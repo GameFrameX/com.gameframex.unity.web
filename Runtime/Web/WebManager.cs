@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -15,7 +15,7 @@ namespace GameFrameX.Web.Runtime
     /// Web请求管理器,实现HTTP GET和POST请求功能
     /// </summary>
     [UnityEngine.Scripting.Preserve]
-    public partial class WebManager : GameFrameworkModule, IWebManager
+    public partial class WebManager : IGameFrameworkModule, IWebManager, IUpdatableModule, IShutdownableModule
     {
         // 用于构建URL的StringBuilder
         private readonly StringBuilder m_StringBuilder = new StringBuilder(256);
@@ -44,11 +44,16 @@ namespace GameFrameX.Web.Runtime
         {
             MaxConnectionPerServer = 8;
             Timeout = 5f;
+            if (GameFrameXOptions.TryGet<WebOptions>(out var webOptions))
+            {
+                Timeout = webOptions.Timeout;
+            }
         }
 
         /// <summary>
         /// 获取或设置超时时间(秒)
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public float Timeout
         {
             get { return m_Timeout; }
@@ -62,17 +67,20 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 获取或设置每个服务器的最大连接数
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public int MaxConnectionPerServer { get; set; }
 
         /// <summary>
         /// 获取或设置请求超时时间
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public TimeSpan RequestTimeout { get; set; }
 
         /// <summary>
         /// 更新处理请求队列
         /// </summary>
-        protected override void Update(float elapseSeconds, float realElapseSeconds)
+        [UnityEngine.Scripting.Preserve]
+        public void Update(float elapseSeconds, float realElapseSeconds)
         {
             lock (m_StringBuilder)
             {
@@ -91,7 +99,6 @@ namespace GameFrameX.Web.Runtime
                             MakeJsonBytesRequest(webJsonData);
                         }
 
-
                         m_SendingNormalList.Add(webJsonData);
                     }
                 }
@@ -103,7 +110,8 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 关闭时清理资源
         /// </summary>
-        protected override void Shutdown()
+        [UnityEngine.Scripting.Preserve]
+        public void Shutdown()
         {
             while (m_WaitingNormalQueue.Count > 0)
             {
@@ -588,6 +596,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">表单键</param>
         /// <param name="value">表单值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseForm(string key, object value)
         {
             m_BaseForm[key] = value;
@@ -597,6 +606,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础表单数据
         /// </summary>
         /// <param name="key">表单键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseForm(string key)
         {
             if (m_BaseForm.ContainsKey(key))
@@ -608,6 +618,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础表单数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseForm()
         {
             m_BaseForm.Clear();
@@ -618,6 +629,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">请求头键</param>
         /// <param name="value">请求头值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseHeader(string key, string value)
         {
             m_BaseHeader[key] = value;
@@ -627,6 +639,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础请求头数据
         /// </summary>
         /// <param name="key">请求头键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseHeader(string key)
         {
             if (m_BaseHeader.ContainsKey(key))
@@ -638,6 +651,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础请求头数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseHeader()
         {
             m_BaseHeader.Clear();
@@ -648,6 +662,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">查询参数键</param>
         /// <param name="value">查询参数值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseQueryString(string key, string value)
         {
             m_BaseQueryString[key] = value;
@@ -657,6 +672,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础查询参数数据
         /// </summary>
         /// <param name="key">查询参数键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseQueryString(string key)
         {
             if (m_BaseQueryString.ContainsKey(key))
@@ -668,6 +684,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础查询参数数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseQueryString()
         {
             m_BaseQueryString.Clear();

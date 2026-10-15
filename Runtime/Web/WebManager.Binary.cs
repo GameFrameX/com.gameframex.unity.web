@@ -196,6 +196,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据</param>
         /// <returns>返回WebBufferResult类型的异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> PostToBytes(string url, byte[] from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             var uniTaskCompletionSource = new TaskCompletionSource<WebBufferResult>();

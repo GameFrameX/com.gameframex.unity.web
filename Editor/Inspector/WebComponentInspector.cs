@@ -7,7 +7,6 @@ namespace GameFrameX.Web.Editor
     [CustomEditor(typeof(WebComponent))]
     internal sealed class WebComponentInspector : ComponentTypeComponentInspector
     {
-        private SerializedProperty m_Timeout = null;
 
         protected override void RefreshTypeNames()
         {
@@ -16,31 +15,17 @@ namespace GameFrameX.Web.Editor
 
         public override void OnInspectorGUI()
         {
+
+            // C9 活视图：编辑态提示 Options 入口；Play 态实时显示/修改超时（经 WebComponent.Timeout 公开属性写回管理器）。
+            GameFrameXOptionsLiveViewUtility.DrawLiveView((WebComponent)target, typeof(WebOptions));
             base.OnInspectorGUI();
             serializedObject.Update();
-
-            WebComponent t = (WebComponent)target;
-            float timeout = EditorGUILayout.Slider("Timeout", m_Timeout.floatValue, 0f, 120f);
-            if (timeout != m_Timeout.floatValue)
-            {
-                if (EditorApplication.isPlaying)
-                {
-                    t.Timeout = timeout;
-                }
-                else
-                {
-                    m_Timeout.floatValue = timeout;
-                }
-            }
-
             serializedObject.ApplyModifiedProperties();
         }
 
         protected override void Enable()
         {
             base.Enable();
-
-            m_Timeout = serializedObject.FindProperty("m_Timeout");
             serializedObject.ApplyModifiedProperties();
         }
     }

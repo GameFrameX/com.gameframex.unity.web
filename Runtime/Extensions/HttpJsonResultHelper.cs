@@ -17,6 +17,7 @@ namespace GameFrameX.Web.Runtime
         /// <typeparam name="T">要反序列化为的对象类型，必须是类并具有无参数构造函数。</typeparam>
         /// <param name="jsonResult">包含HTTP响应的JSON字符串。</param>
         /// <returns>HttpJsonResultData&lt;T&gt;对象，表示反序列化的结果。</returns>
+        [UnityEngine.Scripting.Preserve]
         public static HttpJsonResultData<T> ToHttpJsonResultData<T>(this string jsonResult) where T : class, new()
         {
             HttpJsonResultData<T> resultData = new HttpJsonResultData<T>

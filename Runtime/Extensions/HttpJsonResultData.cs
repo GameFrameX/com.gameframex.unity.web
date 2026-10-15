@@ -11,12 +11,14 @@ namespace GameFrameX.Web.Runtime
         /// 是否成功
         /// 表示请求是否成功执行，成功为true，失败为false。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public bool IsSuccess { get; set; } = false;
 
         /// <summary>
         /// 响应码
         /// 表示请求的处理结果，为0表示成功，其他值表示不同的错误类型。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public int Code { get; set; }
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace GameFrameX.Web.Runtime
         /// 包含请求成功时返回的数据，类型为T。
         /// 如果请求失败，可能为默认值或null。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public T Data { get; set; }
     }
 }

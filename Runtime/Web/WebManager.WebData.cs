@@ -12,21 +12,25 @@ namespace GameFrameX.Web.Runtime
             /// <summary>
             /// 用户自定义数据
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public object UserData { get; protected set; }
 
             /// <summary>
             /// 是否为GET请求
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public bool IsGet { get; protected set; }
 
             /// <summary>
             /// 请求URL
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public string URL { get; protected set; }
 
             /// <summary>
             /// 重置引用状态，将所有字段恢复为默认值
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public virtual void Clear()
             {
                 UserData = default;

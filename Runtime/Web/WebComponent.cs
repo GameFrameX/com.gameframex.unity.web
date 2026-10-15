@@ -46,6 +46,7 @@ namespace GameFrameX.Web.Runtime
     [DisallowMultipleComponent]
     [AddComponentMenu("GameFrameX/Web")]
     [UnityEngine.Scripting.Preserve]
+    [GameFrameXAutoComponent(1600)]
     public sealed class WebComponent : GameFrameworkComponent
     {
         /// <summary>
@@ -54,19 +55,14 @@ namespace GameFrameX.Web.Runtime
         private IWebManager m_WebManager;
 
         /// <summary>
-        /// 请求超时时间配置
-        /// </summary>
-        [SerializeField] [Tooltip("超时时间.单位：秒")]
-        private float m_Timeout = 5f;
-
-        /// <summary>
         /// 获取或设置下载超时时长，以秒为单位。
         /// 当请求超过此时间未完成时会自动终止。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public float Timeout
         {
             get { return m_WebManager.Timeout; }
-            set { m_WebManager.Timeout = m_Timeout = value; }
+            set { m_WebManager.Timeout = value; }
         }
 
         /// <summary>
@@ -84,8 +80,6 @@ namespace GameFrameX.Web.Runtime
                 Log.Fatal("Web manager is invalid.");
                 return;
             }
-
-            m_WebManager.Timeout = m_Timeout;
         }
 
         /// <summary>
@@ -95,6 +89,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> GetToString(string url, object userData = null)
         {
             return m_WebManager.GetToString(url, userData);
@@ -107,6 +102,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URL查询参数字典，会被附加到URL后面</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, object userData = null)
         {
             return m_WebManager.GetToString(url, queryString, userData);
@@ -120,6 +116,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> GetToString(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.GetToString(url, queryString, header, userData);
@@ -133,6 +130,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="url">请求地址</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> GetToBytes(string url, object userData = null)
         {
             return m_WebManager.GetToBytes(url, userData);
@@ -145,6 +143,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URL查询参数字典，会被附加到URL后面</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, object userData = null)
         {
             return m_WebManager.GetToBytes(url, queryString, userData);
@@ -158,6 +157,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> GetToBytes(string url, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.GetToBytes(url, queryString, header, userData);
@@ -172,6 +172,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单数据字典，作为请求体发送</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from = null, object userData = null)
         {
             return m_WebManager.PostToString(url, from, userData);
@@ -185,6 +186,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URL查询参数字典，会被附加到URL后面</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
             return m_WebManager.PostToString(url, from, queryString, userData);
@@ -199,6 +201,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字符串结果的WebStringResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebStringResult> PostToString(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.PostToString(url, from, queryString, header, userData);
@@ -213,6 +216,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="from">表单数据字典，作为请求体发送</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, object userData = null)
         {
             return m_WebManager.PostToBytes(url, from, userData);
@@ -226,6 +230,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="queryString">URL查询参数字典，会被附加到URL后面</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, object userData = null)
         {
             return m_WebManager.PostToBytes(url, from, queryString, userData);
@@ -240,6 +245,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> PostToBytes(string url, Dictionary<string, object> from, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.PostToBytes(url, from, queryString, header, userData);
@@ -254,6 +260,7 @@ namespace GameFrameX.Web.Runtime
         /// <param name="header">HTTP请求头字典</param>
         /// <param name="userData">用户自定义数据，会在结果中原样返回</param>
         /// <returns>返回包含字节数组的WebBufferResult异步任务</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<WebBufferResult> PostToBytes(string url, byte[] fromData, Dictionary<string, string> queryString, Dictionary<string, string> header, object userData = null)
         {
             return m_WebManager.PostToBytes(url, fromData, queryString, header, userData);
@@ -264,6 +271,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">表单键</param>
         /// <param name="value">表单值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseForm(string key, object value)
         {
             m_WebManager.AddBaseForm(key, value);
@@ -273,6 +281,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础表单数据
         /// </summary>
         /// <param name="key">表单键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseForm(string key)
         {
             m_WebManager.RemoveBaseForm(key);
@@ -281,6 +290,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础表单数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseForm()
         {
             m_WebManager.ClearBaseForm();
@@ -291,6 +301,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">请求头键</param>
         /// <param name="value">请求头值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseHeader(string key, string value)
         {
             m_WebManager.AddBaseHeader(key, value);
@@ -300,6 +311,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础请求头数据
         /// </summary>
         /// <param name="key">请求头键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseHeader(string key)
         {
             m_WebManager.RemoveBaseHeader(key);
@@ -308,6 +320,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础请求头数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseHeader()
         {
             m_WebManager.ClearBaseHeader();
@@ -318,6 +331,7 @@ namespace GameFrameX.Web.Runtime
         /// </summary>
         /// <param name="key">查询参数键</param>
         /// <param name="value">查询参数值</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddBaseQueryString(string key, string value)
         {
             m_WebManager.AddBaseQueryString(key, value);
@@ -327,6 +341,7 @@ namespace GameFrameX.Web.Runtime
         /// 移除基础查询参数数据
         /// </summary>
         /// <param name="key">查询参数键</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveBaseQueryString(string key)
         {
             m_WebManager.RemoveBaseQueryString(key);
@@ -335,6 +350,7 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 清空基础查询参数数据
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ClearBaseQueryString()
         {
             m_WebManager.ClearBaseQueryString();
