@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/gameframex/com.gameframex.unity.web/compare/1.4.1...2.0.0) (2026-10-15)
+
+
+* feat(module)!: Web 模块薄入口化并新增 WebOptions ([97c362b](https://github.com/gameframex/com.gameframex.unity.web/commit/97c362babc38cd6aeab2957c485a904432c99611))
+
+
+### BREAKING CHANGES
+
+* WebComponent 序列化字段移除，编辑期配置入口收敛到代码 WebOptions。
+
 ## [Unreleased]
 
 ### ⚠ BREAKING CHANGES
