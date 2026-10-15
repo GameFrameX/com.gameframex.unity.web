@@ -17,9 +17,18 @@ namespace GameFrameX.Web.Runtime
         /// <summary>
         /// 响应码
         /// 表示请求的处理结果，为0表示成功，其他值表示不同的错误类型。
+        /// 服务器错误（如 HTTP 500）无法识别具体错误码时固定为 500。
         /// </summary>
         [UnityEngine.Scripting.Preserve]
         public int Code { get; set; }
+
+        /// <summary>
+        /// 响应消息
+        /// 请求失败时为服务端返回的错误消息（如 HTTP 500 错误体的 message/error/title）；
+        /// 请求成功时为服务端返回的原始消息，可能为空。
+        /// </summary>
+        [UnityEngine.Scripting.Preserve]
+        public string Message { get; set; }
 
         /// <summary>
         /// 数据对象

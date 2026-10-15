@@ -3,9 +3,9 @@
     "references": [
         "GameFrameX.Runtime.Web",
         "GameFrameX.Runtime",
+        "GameFrameX.LitJSON.Runtime",
         "GameFrameX.Web.Runtime"
     ],
-    "rootNamespace": "GameFrameX.Web.Tests",
     "includePlatforms": [
         "Editor"
     ],
